@@ -181,7 +181,7 @@ void Player::Move()
 
     if( keyDownState[GLFW_KEY_SPACE] and jump )
     {
-        yvel = 13.0f;
+        yvel = 15.0f;
         jump = !jump;
     }
 
