@@ -18,6 +18,8 @@ class Player
         void StopYVel();
         void ResetJump();
 
+        float getYVel();
+
         rect *GetRect();
         camera *GetCam();
 
@@ -40,11 +42,13 @@ class Player
         Sprite plysprite;
 
         TE_SOUND SOUND_collide;
+        TE_SOUND SOUND_step;
 
 };
 
 Player::Player():
-    SOUND_collide("sounds/game/collision.wav" )
+    SOUND_collide( "sounds/game/collision.wav" ),
+    SOUND_step( "sounds/game/footstep.wav" )
 {
 
     vertColSound = false;
@@ -69,6 +73,13 @@ Player::Player():
     plyrect.y = plyrect.w+128.0f;
     colrect.x = plyrect.x+20.0f;
     colrect.y = plyrect.y;
+
+}
+
+float Player::getYVel()
+{
+
+    return yvel;
 
 }
 
@@ -145,7 +156,7 @@ void Player::Move()
     bool allowFrameChange = false;
 
     extern int frame;
-    if( frame%20 == 0 )
+    if( frame%20/((keyMods[GLFW_MOD_SHIFT]+1)) == 0 )
     {
 
         allowFrameChange = true;
@@ -158,13 +169,13 @@ void Player::Move()
 
     if( keyStates[GLFW_KEY_A] and jump )
     {
-        tarxvel = -6.3f * (keyMods[GLFW_MOD_SHIFT]+1);
-        if(allowFrameChange)animframe++;
+        tarxvel = -5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
+        if(allowFrameChange){animframe++; SOUND_step.Play( 5 ); }
         dir = true;
     }else if( keyStates[GLFW_KEY_D] and jump )
     {
-        tarxvel = 6.3f * (keyMods[GLFW_MOD_SHIFT]+1);
-        if(allowFrameChange)animframe++;
+        tarxvel = 5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
+        if(allowFrameChange){animframe++; SOUND_step.Play( 5 ); }
         dir = false;
     }else if( jump )
     {

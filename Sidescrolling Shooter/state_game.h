@@ -80,14 +80,14 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
         }else if( horzdist < vertdist )
         {
 
-            if( acenty > bcenty )
+            if( acenty > bcenty and ply.getYVel() < 0 )
             {
 
                 a->y = b->y+b->h;
                 ply.StopYVel();
                 ply.ResetJump();
 
-            }else if( acenty < bcenty )
+            }else if( acenty < bcenty and ply.getYVel() > 0 )
             {
 
                 a->y = b->y-a->h;
