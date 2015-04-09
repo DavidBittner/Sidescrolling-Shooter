@@ -23,6 +23,7 @@ extern ISoundEngine *engine;
 void STATE_GAME_LOAD()
 {
 
+    //Loading textures.
     ground.Create( 0, 1, 1 );
     ground.LoadThruFunc( "texs/game/floortile.png", 512, 512, GL_LINEAR );
 
@@ -51,6 +52,7 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
     if( AABB( a, b ) )
     {
 
+        //Declaring variables that are the coordinates of the two centers of the rectangles.
         float acentx = a->x+(a->w/2.0);
         float bcentx = b->x+(b->w/2.0);
 
@@ -62,6 +64,8 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
 
         if( horzdist > vertdist )
         {
+
+            //If it is a horizontal collision, I.E. sides. (yes, they are in orbit)
 
             if( acentx > bcentx )
             {
@@ -80,6 +84,7 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
         }else if( horzdist < vertdist )
         {
 
+            //If it's a vertical collision I.E. top or bottoms.
             if( acenty > bcenty and ply.getYVel() < 0 )
             {
 

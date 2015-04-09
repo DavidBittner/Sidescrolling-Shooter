@@ -14,10 +14,12 @@ class Player
         void Draw();
         void Move();
 
+        //Stopping various velocities for collisions, and resetting the jump boolean.
         void StopXVel( bool left );
         void StopYVel();
         void ResetJump();
 
+        //Returning the y velocity so the program can determine the vertical direction of movement.
         float getYVel();
 
         rect *GetRect();
@@ -33,8 +35,6 @@ class Player
         int animframe;
         bool dir;
 
-        bool vertColSound, horizColSound;
-
         camera cam;
 
         rect plyrect;
@@ -46,14 +46,14 @@ class Player
 
 };
 
+
+//Beginning of the constructor runs the sounds constructors.
 Player::Player():
     SOUND_collide( "sounds/game/collision.wav" ),
     SOUND_step( "sounds/game/footstep.wav" )
 {
 
-    vertColSound = false;
-    horizColSound = false;
-
+    //Direction
     dir = false;
 
     jump = true;
@@ -63,6 +63,8 @@ Player::Player():
     mass = 60; //kilograms
     xvel = 0.0f; yvel = 0.0f;
 
+    //The players image rectangle versus the players collision rectangle.
+    //Different sizes due to the player not taking up the full image.
     plyrect.w = 128.0f;
     plyrect.h = 128.0f;
 
@@ -103,12 +105,13 @@ void Player::StopYVel()
 
     plyrect.y = colrect.y;
 
-    if( yvel > 0.5f or yvel < -0.5f )
+    if( (yvel > 0.5f or yvel < -0.5f) and yvel < 15.0f )
     {
 
         SOUND_collide.Play( abs(yvel*5.0) );
 
     }
+
     yvel = 0.0f;
 }
 void Player::ResetJump()
@@ -134,6 +137,8 @@ void Player::Create()
 void Player::Draw()
 {
 
+    //Whether or not to draw the frame facing left or right.
+
     if(!dir)plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f );
     if(dir)plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f );
     cam.x = plyrect.x;
@@ -151,7 +156,7 @@ rect *Player::GetRect()
 void Player::Move()
 {
 
-    //extern float RUN_FRAMES_PER_SECOND;
+    //The frame and if-statement that control whether or not to change the players animation frame.
 
     bool allowFrameChange = false;
 
@@ -167,15 +172,17 @@ void Player::Move()
 
     yvel -= 0.5f;
 
+    //The If statements that control movement targets. Basically, just checking key-presses.
+
     if( keyStates[GLFW_KEY_A] and jump )
     {
         tarxvel = -5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
-        if(allowFrameChange){animframe++; SOUND_step.Play( 5 ); }
+        if(allowFrameChange){animframe++; SOUND_step.Play( 10 ); }
         dir = true;
     }else if( keyStates[GLFW_KEY_D] and jump )
     {
         tarxvel = 5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
-        if(allowFrameChange){animframe++; SOUND_step.Play( 5 ); }
+        if(allowFrameChange){animframe++; SOUND_step.Play( 10 ); }
         dir = false;
     }else if( jump )
     {
@@ -192,9 +199,13 @@ void Player::Move()
 
     if( keyDownState[GLFW_KEY_SPACE] and jump )
     {
+
         yvel = 15.0f;
         jump = !jump;
+
     }
+
+    //Getting the actual velocity up to the velocity target for gradual motion instead of sudden motion.
 
     if( xvel < tarxvel )
     {

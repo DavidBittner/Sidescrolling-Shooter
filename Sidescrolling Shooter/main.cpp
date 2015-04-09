@@ -11,13 +11,14 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
-const float FRAMES_PER_SECOND = 120.0f;
+const float FRAMES_PER_SECOND = 60.0f;
 float RUN_FRAMES_PER_SECOND = 0.0f;
 int frame = 0;
 
 void Reshape( GLFWwindow *window, int width, int height )
 {
 
+    //Generic window reshape function.
     glViewport( 0, 0, (GLsizei)width, (GLsizei)height );
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
@@ -45,6 +46,7 @@ int main()
 	glfwInit();
 
 	GLFWwindow *window;
+    //To create a window of certain dimensions, full screen or not.
 	if(!fullscreen)
 		window = glfwCreateWindow( WINDOW_WIDTH, WINDOW_HEIGHT, "Side-scrolling Shooter", NULL, NULL );
 	else
@@ -54,7 +56,6 @@ int main()
 
 	glfwSetWindowSizeCallback( window, Reshape );
 	glfwSetKeyCallback( window, KeyFunc );
-	//glfwSetCharCallback( window, KeyUnicodeFunc );
 
 	glfwSwapInterval( 1 );
 	glClearColor( 0.6f, 0.8f, 1.0f, 1.0f );
@@ -62,6 +63,7 @@ int main()
 
 	Reshape( window, WINDOW_WIDTH, WINDOW_HEIGHT );
 
+    //Loading the game state.
 	STATE_GAME_LOAD();
 	mainFont.Create( 16, 8, "texs/gui/font.png" );
 
@@ -107,7 +109,7 @@ int main()
 
 		frame++;
 
-		if( frame == FRAMES_PER_SECOND/2 )
+		if( frame == FRAMES_PER_SECOND )
 		{
 
 			frame = 0;
