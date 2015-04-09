@@ -54,8 +54,8 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
         float acentx = a->x+(a->w/2.0);
         float bcentx = b->x+(b->w/2.0);
 
-        float acenty = a->y+(a->w/2.0);
-        float bcenty = b->y+(b->w/2.0);
+        float acenty = a->y+(a->h/2.0);
+        float bcenty = b->y+(b->h/2.0);
 
         float horzdist = abs( abs(acentx) - abs(bcentx) );
         float vertdist = abs( abs(acenty) - abs(bcenty) );
@@ -67,13 +67,13 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
             {
 
                 a->x = b->x+b->w;
-                ply.StopXVel();
+                ply.StopXVel( false );
 
             }else if( acentx < bcentx )
             {
 
                 a->x = b->x-a->w;
-                ply.StopXVel();
+                ply.StopXVel( true );
 
             }
 
@@ -83,14 +83,14 @@ bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
             if( acenty > bcenty )
             {
 
-                a->y = b->y+b->w;
+                a->y = b->y+b->h;
                 ply.StopYVel();
                 ply.ResetJump();
 
             }else if( acenty < bcenty )
             {
 
-                a->y = b->y-a->w;
+                a->y = b->y-a->h;
                 ply.StopYVel();
 
             }

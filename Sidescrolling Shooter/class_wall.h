@@ -28,6 +28,7 @@ void Wall::Create( GLuint tex, int x, int y )
     wallrect.x = x;
     wallrect.y = y;
     wallrect.w = 128;
+    wallrect.h = 128;
 
 }
 

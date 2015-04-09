@@ -14,7 +14,7 @@ class Player
         void Draw();
         void Move();
 
-        void StopXVel();
+        void StopXVel( bool left );
         void StopYVel();
         void ResetJump();
 
@@ -36,6 +36,7 @@ class Player
         camera cam;
 
         rect plyrect;
+        rect colrect;
         Sprite plysprite;
 
         TE_SOUND SOUND_collide;
@@ -59,14 +60,22 @@ Player::Player():
     xvel = 0.0f; yvel = 0.0f;
 
     plyrect.w = 128.0f;
+    plyrect.h = 128.0f;
+
+    colrect.w = 88.0f;
+    colrect.h = 128.0f;
 
     plyrect.x = plyrect.w+128.0f;
     plyrect.y = plyrect.w+128.0f;
+    colrect.x = plyrect.x+20.0f;
+    colrect.y = plyrect.y;
 
 }
 
-void Player::StopXVel()
+void Player::StopXVel( bool left )
 {
+
+    plyrect.x = colrect.x-20.0f;
 
     if( xvel > 1.0f or xvel < -1.0f )
     {
@@ -80,6 +89,8 @@ void Player::StopXVel()
 }
 void Player::StopYVel()
 {
+
+    plyrect.y = colrect.y;
 
     if( yvel > 0.5f or yvel < -0.5f )
     {
@@ -122,7 +133,7 @@ void Player::Draw()
 rect *Player::GetRect()
 {
 
-    return &plyrect;
+    return &colrect;
 
 }
 
@@ -147,12 +158,12 @@ void Player::Move()
 
     if( keyStates[GLFW_KEY_A] and jump )
     {
-        tarxvel = -5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
+        tarxvel = -6.3f * (keyMods[GLFW_MOD_SHIFT]+1);
         if(allowFrameChange)animframe++;
         dir = true;
     }else if( keyStates[GLFW_KEY_D] and jump )
     {
-        tarxvel = 5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
+        tarxvel = 6.3f * (keyMods[GLFW_MOD_SHIFT]+1);
         if(allowFrameChange)animframe++;
         dir = false;
     }else if( jump )
@@ -170,7 +181,7 @@ void Player::Move()
 
     if( keyDownState[GLFW_KEY_SPACE] and jump )
     {
-        yvel = 15.0f;
+        yvel = 13.0f;
         jump = !jump;
     }
 
@@ -188,6 +199,8 @@ void Player::Move()
 
     plyrect.x += xvel;
     plyrect.y += yvel;
+    colrect.x = plyrect.x+20.0f;
+    colrect.y = plyrect.y;
 
     if( plyrect.y < plyrect.w/2 )
     {
@@ -200,7 +213,7 @@ void Player::Move()
         }
 
         jump = true;
-        plyrect.y = plyrect.w/2;
+        plyrect.y = colrect.h/2;
         yvel = 0.0f;
 
     }
