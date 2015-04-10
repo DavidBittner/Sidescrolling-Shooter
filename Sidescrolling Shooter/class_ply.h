@@ -136,11 +136,14 @@ void Player::Create()
 
 void Player::Draw()
 {
+    static bool last;
 
     //Whether or not to draw the frame facing left or right.
 
-    if(!dir)plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f );
-    if(dir)plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f );
+    if( tarxvel > 0 ){plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); last = true; }
+    else if( tarxvel < 0 ){plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); last = false; }
+    else if( last ){ plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); }
+    else if( !last ){ plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); }
     cam.x = plyrect.x;
     cam.y = plyrect.y;
 
@@ -176,25 +179,32 @@ void Player::Move()
 
     if( keyStates[GLFW_KEY_A] and jump )
     {
-        tarxvel = -5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
-        if(allowFrameChange){animframe++; SOUND_step.Play( 10 ); }
+        tarxvel = -5.0f * (keyStates[GLFW_KEY_LEFT_SHIFT]+1);
+        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
         dir = true;
     }else if( keyStates[GLFW_KEY_D] and jump )
     {
-        tarxvel = 5.0f * (keyMods[GLFW_MOD_SHIFT]+1);
-        if(allowFrameChange){animframe++; SOUND_step.Play( 10 ); }
+        tarxvel = 5.0f * (keyStates[GLFW_KEY_LEFT_SHIFT]+1);
+        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
         dir = false;
     }else if( jump )
     {
         tarxvel = 0.0f;
     }
 
-    if( !jump and keyStates[GLFW_KEY_A] and xvel > -10.0f )
+    if( keyStates[GLFW_KEY_A] and !jump )
     {
-        tarxvel-=0.2f;
-    }else if( !jump and keyStates[GLFW_KEY_D] and xvel < 10.0f )
+        tarxvel = -10.0f;
+    }else if( keyStates[GLFW_KEY_D] and !jump )
     {
-        tarxvel+=0.2f;
+        tarxvel = 10.0f;
+    }
+
+    if( !keyStates[GLFW_KEY_A] and !keyStates[GLFW_KEY_D] )
+    {
+
+        animframe = 0;
+
     }
 
     if( keyDownState[GLFW_KEY_SPACE] and jump )
@@ -212,7 +222,8 @@ void Player::Move()
 
         xvel += 1.0f;
 
-    }else if( xvel > tarxvel )
+    }
+    if( xvel > tarxvel )
     {
 
         xvel -= 1.0f;

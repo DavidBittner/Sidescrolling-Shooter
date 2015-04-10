@@ -11,7 +11,7 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
-const float FRAMES_PER_SECOND = 60.0f;
+const float FRAMES_PER_SECOND = 120.0f;
 float RUN_FRAMES_PER_SECOND = 0.0f;
 int frame = 0;
 
@@ -85,7 +85,7 @@ int main()
         xtrans = MainCam->x - (windwid/2.0);
         ytrans = MainCam->y - (windhei/2.0);
 
-        glTranslatef( -xtrans, -(ytrans+128), -1.0f );
+        glTranslatef( -xtrans, -(ytrans), -1.0f );
 
 		STATE_GAME_RUN();
 		glPopMatrix();
