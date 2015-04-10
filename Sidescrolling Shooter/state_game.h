@@ -14,6 +14,8 @@ camera *MainCam;
 Sprite ground;
 Sprite background;
 
+TE_SOUND SOUND_music("sounds/game/song.wav" );
+
 vector<Wall> Walls;
 
 using namespace irrklang;
@@ -43,6 +45,8 @@ void STATE_GAME_LOAD()
         Walls.back().Create( walltex, 64+(i*256), 64 + (i*128 ) );
 
     }
+
+    SOUND_music.Play( 100 );
 
 }
 
