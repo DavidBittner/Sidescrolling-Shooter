@@ -22,7 +22,7 @@ class Player
         //Returning the y velocity so the program can determine the vertical direction of movement.
         float getYVel();
 
-        rect *GetRect();
+        TE_RECT *GetRect();
         camera *GetCam();
 
     private:
@@ -37,9 +37,9 @@ class Player
 
         camera cam;
 
-        rect plyrect;
-        rect colrect;
-        Sprite plysprite;
+        TE_RECT plyrect;
+        TE_RECT colrect;
+        TE_SPRITE plysprite;
 
         TE_SOUND SOUND_collide;
         TE_SOUND SOUND_step;
@@ -149,7 +149,7 @@ void Player::Draw()
 
 }
 
-rect *Player::GetRect()
+TE_RECT *Player::GetRect()
 {
 
     return &colrect;
@@ -166,7 +166,7 @@ void Player::Move()
     bool allowFrameChange = false;
 
     extern int frame;
-    if( frame%20/((keyMods[GLFW_MOD_SHIFT]+1)) == 0 )
+    if( frame%20/((TE_KEYMODS[GLFW_MOD_SHIFT]+1)) == 0 )
     {
 
         allowFrameChange = true;
@@ -179,12 +179,12 @@ void Player::Move()
 
     //The If statements that control movement targets. Basically, just checking key-presses.
 
-    if( keyStates[GLFW_KEY_A] and jump )
+    if( TE_KEYSTATES[GLFW_KEY_A] and jump )
     {
         tarxvel = -5.0f * (shift+1);
         if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
         dir = true;
-    }else if( keyStates[GLFW_KEY_D] and jump )
+    }else if( TE_KEYSTATES[GLFW_KEY_D] and jump )
     {
         tarxvel = 5.0f * (shift+1);
         if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
@@ -194,10 +194,10 @@ void Player::Move()
         tarxvel = 0.0f;
     }
 
-    if( keyStates[GLFW_KEY_A] and !jump )
+    if( TE_KEYSTATES[GLFW_KEY_A] and !jump )
     {
         tarxvel -= 1.0f;
-    }else if( keyStates[GLFW_KEY_D] and !jump )
+    }else if( TE_KEYSTATES[GLFW_KEY_D] and !jump )
     {
         tarxvel += 1.0f;
     }
@@ -210,14 +210,14 @@ void Player::Move()
         tarxvel = -5.0f * (shift+1);
     }
 
-    if( !keyStates[GLFW_KEY_A] and !keyStates[GLFW_KEY_D] )
+    if( !TE_KEYSTATES[GLFW_KEY_A] and !TE_KEYSTATES[GLFW_KEY_D] )
     {
 
         animframe = 0;
 
     }
 
-    if( keyDownState[GLFW_KEY_SPACE] and jump )
+    if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump )
     {
 
         yvel = 15.0f;

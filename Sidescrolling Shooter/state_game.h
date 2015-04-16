@@ -11,8 +11,8 @@ Player ply;
 
 camera *MainCam;
 
-Sprite ground;
-Sprite background;
+TE_SPRITE ground;
+TE_SPRITE background;
 
 TE_SOUND SOUND_music("sounds/game/song.wav" );
 
@@ -50,10 +50,10 @@ void STATE_GAME_LOAD()
 
 }
 
-bool STATE_GAME_ACT_ON_COLLISION( rect *a, rect *b )
+bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
 {
 
-    if( AABB( a, b ) )
+    if( TE_AABB( a, b ) )
     {
 
         //Declaring variables that are the coordinates of the two centers of the rectangles.

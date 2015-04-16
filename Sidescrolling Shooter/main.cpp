@@ -15,18 +15,6 @@ const float FRAMES_PER_SECOND = 120.0f;
 float RUN_FRAMES_PER_SECOND = 0.0f;
 int frame = 0;
 
-void Reshape( GLFWwindow *window, int width, int height )
-{
-
-    //Generic window reshape function.
-    glViewport( 0, 0, (GLsizei)width, (GLsizei)height );
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    glOrtho( 0.0, width, 0.0, height, 1.0f, 5.0f );
-    glMatrixMode( GL_MODELVIEW );
-
-}
-
 string ToString( int x )
 {
 
@@ -54,14 +42,9 @@ int main()
 
 	glfwMakeContextCurrent( window );
 
-	glfwSetWindowSizeCallback( window, Reshape );
-	glfwSetKeyCallback( window, KeyFunc );
-
 	glfwSwapInterval( 1 );
 	glClearColor( 0.6f, 0.8f, 1.0f, 1.0f );
-	TE_INIT();
-
-	Reshape( window, WINDOW_WIDTH, WINDOW_HEIGHT );
+	TE_INIT( WINDOW_WIDTH, WINDOW_HEIGHT);
 
     //Loading the game state.
 	STATE_GAME_LOAD();

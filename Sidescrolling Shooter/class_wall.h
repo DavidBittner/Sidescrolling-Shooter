@@ -10,13 +10,13 @@ class Wall
         void Draw();
         void Create( GLuint tex, int x, int y );
 
-        coord GetZone();
+        TE_COORD GetZone();
 
-        rect *GetRect();
+        TE_RECT *GetRect();
 
     private:
-        rect wallrect;
-        Sprite wall;
+        TE_RECT wallrect;
+        TE_SPRITE wall;
 
 };
 
@@ -39,10 +39,10 @@ void Wall::Draw()
 
 }
 
-coord Wall::GetZone()
+TE_COORD Wall::GetZone()
 {
 
-    coord temp;
+    TE_COORD temp;
     temp.x = wallrect.x;
     temp.y = wallrect.y;
 
@@ -50,7 +50,7 @@ coord Wall::GetZone()
 
 }
 
-rect *Wall::GetRect()
+TE_RECT *Wall::GetRect()
 {
 
     return &wallrect;
