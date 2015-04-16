@@ -161,6 +161,8 @@ void Player::Move()
 
     //The frame and if-statement that control whether or not to change the players animation frame.
 
+    bool shift = glfwGetKey( glfwGetCurrentContext(), GLFW_KEY_LEFT_SHIFT );
+
     bool allowFrameChange = false;
 
     extern int frame;
@@ -179,12 +181,12 @@ void Player::Move()
 
     if( keyStates[GLFW_KEY_A] and jump )
     {
-        tarxvel = -5.0f * (keyStates[GLFW_KEY_LEFT_SHIFT]+1);
+        tarxvel = -5.0f * (shift+1);
         if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
         dir = true;
     }else if( keyStates[GLFW_KEY_D] and jump )
     {
-        tarxvel = 5.0f * (keyStates[GLFW_KEY_LEFT_SHIFT]+1);
+        tarxvel = 5.0f * (shift+1);
         if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
         dir = false;
     }else if( jump )
@@ -194,10 +196,18 @@ void Player::Move()
 
     if( keyStates[GLFW_KEY_A] and !jump )
     {
-        tarxvel = -10.0f;
+        tarxvel -= 1.0f;
     }else if( keyStates[GLFW_KEY_D] and !jump )
     {
-        tarxvel = 10.0f;
+        tarxvel += 1.0f;
+    }
+
+    if( !jump and tarxvel > ( 5.0f * (shift+1) ) )
+    {
+        tarxvel = 5.0f * (shift+1);
+    }if( !jump and tarxvel < ( -5.0f * (shift+1) ) )
+    {
+        tarxvel = -5.0f * (shift+1);
     }
 
     if( !keyStates[GLFW_KEY_A] and !keyStates[GLFW_KEY_D] )
