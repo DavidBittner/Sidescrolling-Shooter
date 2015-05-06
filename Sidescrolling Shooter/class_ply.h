@@ -40,6 +40,9 @@ class Player
         TE_RECT plyrect;
         TE_RECT colrect;
         TE_SPRITE plysprite;
+        TE_SPRITE armSprite;
+        float armAng;
+        int armx, army;
 
         TE_SOUND SOUND_collide;
         TE_SOUND SOUND_step;
@@ -53,6 +56,9 @@ Player::Player():
     SOUND_step( "sounds/game/footstep.wav" )
 {
 
+    armx = -30;
+    army = -12;
+
     //Direction
     dir = false;
 
@@ -60,7 +66,6 @@ Player::Player():
 
     animframe = 0;
 
-    mass = 60; //kilograms
     xvel = 0.0f; yvel = 0.0f;
 
     //The players image rectangle versus the players collision rectangle.
@@ -100,6 +105,7 @@ void Player::StopXVel( bool left )
     tarxvel = 0.0f;
 
 }
+
 void Player::StopYVel()
 {
 
@@ -114,6 +120,7 @@ void Player::StopYVel()
 
     yvel = 0.0f;
 }
+
 void Player::ResetJump()
 {
     jump = true;
@@ -131,6 +138,8 @@ void Player::Create()
 
     plysprite.Create( 0, 2, 1 );
     plysprite.LoadThruFunc( "texs/game/playersheet.png", 256, 256, GL_NEAREST );
+    armSprite.Create( 0, 1, 1 );
+    armSprite.LoadThruFunc( "texs/game/arm.png", 32, 8, GL_NEAREST );
 
 }
 
@@ -138,14 +147,16 @@ void Player::Draw()
 {
     static bool last;
 
-    //Whether or not to draw the frame facing left or right.
+    //Whether or not to draw the player facing left or right.
 
-    if( tarxvel > 0 ){plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); last = true; }
-    else if( tarxvel < 0 ){plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); last = false; }
+    if( tarxvel > 0 ){ plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); last = true; armx = 30; army = -8; }
+    else if( tarxvel < 0 ){ plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); last = false; armx = -30; army = -8;  }
     else if( last ){ plysprite.Draw( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); }
     else if( !last ){ plysprite.DrawFlipped( animframe, plyrect.x, plyrect.y, plyrect.w, plyrect.w, 0.0f ); }
     cam.x = plyrect.x;
     cam.y = plyrect.y;
+
+    armSprite.Draw( 0, plyrect.x+armx, plyrect.y+army, 64, 8, armAng );
 
 }
 
@@ -158,6 +169,8 @@ TE_RECT *Player::GetRect()
 
 void Player::Move()
 {
+
+    if( TE_MOUSECLICK[ GLFW_MOUSE_BUTTON_LEFT ] ){ cout << "clicked" << endl; }
 
     //The frame and if-statement that control whether or not to change the players animation frame.
 
@@ -182,12 +195,12 @@ void Player::Move()
     if( TE_KEYSTATES[GLFW_KEY_A] and jump )
     {
         tarxvel = -5.0f * (shift+1);
-        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
+        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 15 ); }
         dir = true;
     }else if( TE_KEYSTATES[GLFW_KEY_D] and jump )
     {
         tarxvel = 5.0f * (shift+1);
-        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 100 ); }
+        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 15 ); }
         dir = false;
     }else if( jump )
     {
@@ -263,6 +276,10 @@ void Player::Move()
 
     if( animframe > 1 )
         animframe = 0;
+
+    armAng = TE_GET_INCLIN( plyrect.x+armx, plyrect.y+army,
+                           TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
+                           TE_MOUSE_POS.y+( plyrect.y  - (TE_WINDOW_HEIGHT/2.0) ) );
 
 }
 

@@ -15,6 +15,8 @@ const float FRAMES_PER_SECOND = 120.0f;
 float RUN_FRAMES_PER_SECOND = 0.0f;
 int frame = 0;
 
+float mouseX, mouseY;
+
 string ToString( int x )
 {
 
@@ -28,11 +30,9 @@ int main()
 {
 
 	bool fullscreen = false;
-
 	Font mainFont;
 
 	glfwInit();
-
 	GLFWwindow *window;
     //To create a window of certain dimensions, full screen or not.
 	if(!fullscreen)
@@ -44,7 +44,7 @@ int main()
 
 	glfwSwapInterval( 1 );
 	glClearColor( 0.6f, 0.8f, 1.0f, 1.0f );
-	TE_INIT( WINDOW_WIDTH, WINDOW_HEIGHT);
+	TE_INIT( WINDOW_WIDTH, WINDOW_HEIGHT );
 
     //Loading the game state.
 	STATE_GAME_LOAD();
@@ -65,7 +65,7 @@ int main()
         glfwGetWindowSize( window, &windwid, &windhei );
 
         float xtrans, ytrans;
-        xtrans = MainCam->x - (windwid/2.0);
+        xtrans = MainCam->x - (TE_WINDOW_WIDTH/2.0);
         ytrans = MainCam->y - (windhei/2.0);
 
         glTranslatef( -xtrans, -(ytrans), -1.0f );
@@ -99,6 +99,8 @@ int main()
 			RUN_FRAMES_PER_SECOND = 1000.0f/(1000*etime-1000*stime);
 
 		}
+
+		if( frame%3 > 0 ){ TE_RESET_KEYS(); }
 
 	}
 

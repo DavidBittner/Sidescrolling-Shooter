@@ -46,7 +46,7 @@ void STATE_GAME_LOAD()
 
     }
 
-    SOUND_music.Play( 100 );
+    //SOUND_music.Play( 75 );
 
 }
 
