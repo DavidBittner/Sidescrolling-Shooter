@@ -44,6 +44,7 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="class_bullet.h" />
 		<Unit filename="class_ply.h" />
 		<Unit filename="class_wall.h" />
 		<Unit filename="main.cpp" />
