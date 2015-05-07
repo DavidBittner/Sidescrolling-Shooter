@@ -76,12 +76,14 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
 
                 a->x = b->x+b->w;
                 ply.StopXVel( false );
+                ply.ResetJump();
 
             }else if( acentx < bcentx )
             {
 
                 a->x = b->x-a->w;
                 ply.StopXVel( true );
+                ply.ResetJump();
 
             }
 

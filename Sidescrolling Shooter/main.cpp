@@ -71,6 +71,7 @@ int main()
         glTranslatef( -xtrans, -(ytrans), -1.0f );
 
 		STATE_GAME_RUN();
+        TE_RESET_KEYS();
 		glPopMatrix();
 
 		//UI Elements
@@ -99,8 +100,6 @@ int main()
 			RUN_FRAMES_PER_SECOND = 1000.0f/(1000*etime-1000*stime);
 
 		}
-
-		if( frame%3 > 0 ){ TE_RESET_KEYS(); }
 
 	}
 

@@ -2,7 +2,10 @@
 #define CLASS_PLY_H_INCLUDED
 
 #include <te.h>
+#include "class_bullet.h"
 #include "struct_camera.h"
+
+GLuint bullet;
 
 class Player
 {
@@ -31,6 +34,8 @@ class Player
         float tarxvel;
 
         bool jump;
+
+        vector<Bullet> bullets;
 
         int animframe;
         bool dir;
@@ -140,6 +145,7 @@ void Player::Create()
     plysprite.LoadThruFunc( "texs/game/playersheet.png", 256, 256, GL_NEAREST );
     armSprite.Create( 0, 1, 1 );
     armSprite.LoadThruFunc( "texs/game/arm.png", 32, 8, GL_NEAREST );
+    bullet = LoadTexture( "texs/game/bullet.png", 16, 16, GL_NEAREST, GL_NEAREST );
 
 }
 
@@ -156,6 +162,13 @@ void Player::Draw()
     cam.x = plyrect.x;
     cam.y = plyrect.y;
 
+    for( unsigned int i = 0; i < bullets.size(); i++ )
+    {
+
+        bullets[i].Draw();
+
+    }
+
     armSprite.Draw( 0, plyrect.x+armx, plyrect.y+army, 64, 8, armAng );
 
 }
@@ -169,8 +182,6 @@ TE_RECT *Player::GetRect()
 
 void Player::Move()
 {
-
-    if( TE_MOUSECLICK[ GLFW_MOUSE_BUTTON_LEFT ] ){ cout << "clicked" << endl; }
 
     //The frame and if-statement that control whether or not to change the players animation frame.
 
@@ -280,6 +291,22 @@ void Player::Move()
     armAng = TE_GET_INCLIN( plyrect.x+armx, plyrect.y+army,
                            TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
                            TE_MOUSE_POS.y+( plyrect.y  - (TE_WINDOW_HEIGHT/2.0) ) );
+
+    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] )
+    {
+
+        bullets.push_back( Bullet() );
+        bullets.back().Shoot( armAng );
+        bullets.back().Create( bullet, plyrect.x+armx, plyrect.y+army, 30 );
+
+    }
+
+    for( unsigned int i = 0; i < bullets.size(); i++ )
+    {
+
+        bullets[i].Move();
+
+    }
 
 }
 
