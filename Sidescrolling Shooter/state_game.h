@@ -14,13 +14,9 @@ camera *MainCam;
 TE_SPRITE ground;
 TE_SPRITE background;
 
-TE_SOUND SOUND_music("sounds/game/song.wav" );
+TE_SOUND SOUND_music( "test.ogg" );
 
 vector<Wall> Walls;
-
-using namespace irrklang;
-
-extern ISoundEngine *engine;
 
 void STATE_GAME_LOAD()
 {
@@ -38,15 +34,14 @@ void STATE_GAME_LOAD()
 
     GLuint walltex = LoadTexture( "texs/game/wall.png", 256, 256, GL_LINEAR, GL_NEAREST );
 
-    for( int i = 0; i < 4; i++ )
+    for( int i = 0; i < 40; i++ )
     {
 
         Walls.push_back( Wall() );
         Walls.back().Create( walltex, 64+(i*256), 64 + (i*128 ) );
 
     }
-
-    //SOUND_music.Play( 75 );
+    SOUND_music.initSound();
 
 }
 
@@ -120,6 +115,7 @@ void STATE_GAME_RUN()
 {
 
 	ply.Move();
+    SOUND_music.Play( 100 );
 
     for( int y = -5; y < 6; y++ )
     {
