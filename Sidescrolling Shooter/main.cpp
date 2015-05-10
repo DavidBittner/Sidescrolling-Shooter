@@ -11,7 +11,7 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
-const float FRAMES_PER_SECOND = 120.0f;
+const float FRAMES_PER_SECOND = 60.0f;
 float RUN_FRAMES_PER_SECOND = 0.0f;
 int frame = 0;
 
@@ -54,7 +54,7 @@ int main()
 
 	while( !glfwWindowShouldClose( window ) )
 	{
-
+        float stime2 = glfwGetTime();
         glClear( GL_COLOR_BUFFER_BIT );
         glLoadIdentity();
 
@@ -87,19 +87,21 @@ int main()
 		if( etime-stime < 1000.0f/FRAMES_PER_SECOND )
 		{
 
-            Sleep( (1000.0f/FRAMES_PER_SECOND) - (etime-stime) );
+            //Sleep( (1000.0f/FRAMES_PER_SECOND) - (etime-stime) );
 
 		}
 
+        float etime2 = glfwGetTime();
 		frame++;
 
 		if( frame == FRAMES_PER_SECOND )
 		{
 
 			frame = 0;
-			RUN_FRAMES_PER_SECOND = 1000.0f/(1000*etime-1000*stime);
 
 		}
+        RUN_FRAMES_PER_SECOND = 1000.0f/(1000*etime2-1000*stime2);
+        cout << RUN_FRAMES_PER_SECOND << endl;
 
 	}
 

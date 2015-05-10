@@ -43,7 +43,7 @@ void STATE_GAME_LOAD()
     }
 
     SOUND_test.initSound();
-    SOUND_test.Play( 10 );
+    SOUND_test.Play( 100 );
 
 }
 
