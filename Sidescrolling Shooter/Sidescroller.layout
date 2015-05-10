@@ -6,14 +6,9 @@
 			<Cursor1 position="5934" topLine="277" />
 		</Cursor>
 	</File>
-	<File name="state_game.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="class_wall.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2143" topLine="91" />
-		</Cursor>
-	</File>
-	<File name="struct_camera.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="70" topLine="0" />
+			<Cursor1 position="770" topLine="20" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -21,14 +16,19 @@
 			<Cursor1 position="1574" topLine="37" />
 		</Cursor>
 	</File>
-	<File name="class_wall.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="state_game.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="770" topLine="20" />
+			<Cursor1 position="3330" topLine="132" />
+		</Cursor>
+	</File>
+	<File name="struct_camera.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="70" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="class_bullet.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1282" topLine="50" />
+			<Cursor1 position="919" topLine="50" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

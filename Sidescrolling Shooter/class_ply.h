@@ -295,8 +295,8 @@ void Player::Move()
     if( TE_MOUSEBUTTONS[GLFW_MOUSE_BUTTON_LEFT] )
     {
 
-        int randnum = rand()%360;
-        randnum = randnum-180;
+        int randnum = rand()%20;
+        randnum = randnum-10;
 
         bullets.push_back( Bullet() );
         bullets.back().Shoot( armAng+randnum );
