@@ -28,10 +28,14 @@ class Player
         TE_RECT *GetRect();
         camera *GetCam();
 
+        Bullet *GetBullets( unsigned int *am );
+
     private:
         float mass;
         double xvel, yvel;
         float tarxvel;
+
+        int maxhorispeed;
 
         bool jump;
 
@@ -52,13 +56,16 @@ class Player
         TE_SOUND SOUND_collide;
         TE_SOUND SOUND_step;
 
+        TE_SOUND SOUND_BULLET_shot;
+
 };
 
 
 //Beginning of the constructor runs the sounds constructors.
 Player::Player():
-    SOUND_collide( "sounds/game/collision.wav" ),
-    SOUND_step( "sounds/game/footstep.wav" )
+    SOUND_collide( "sounds/game/collision.ogg" ),
+    SOUND_step( "sounds/game/footstep.ogg" ),
+    SOUND_BULLET_shot( "sounds/game/gunshot.ogg" )
 {
 
     armx = -30;
@@ -78,13 +85,23 @@ Player::Player():
     plyrect.w = 128.0f;
     plyrect.h = 128.0f;
 
-    colrect.w = 88.0f;
-    colrect.h = 128.0f;
+    colrect.w = 85.0f;
+    colrect.h = 120.0f;
 
     plyrect.x = plyrect.w+128.0f;
     plyrect.y = plyrect.w+128.0f;
-    colrect.x = plyrect.x+20.0f;
+    colrect.x = plyrect.x+24.0f;
     colrect.y = plyrect.y;
+
+    maxhorispeed = 600;
+
+}
+
+Bullet *Player::GetBullets( unsigned int *am )
+{
+
+    *am = bullets.size();
+    return bullets.data();
 
 }
 
@@ -124,6 +141,7 @@ void Player::StopYVel()
     }
 
     yvel = 0.0f;
+
 }
 
 void Player::ResetJump()
@@ -146,6 +164,11 @@ void Player::Create()
     armSprite.Create( 0, 1, 1 );
     armSprite.LoadThruFunc( "texs/game/arm.png", 32, 8, GL_NEAREST );
     bullet = LoadTexture( "texs/game/bullet.png", 16, 16, GL_NEAREST, GL_NEAREST );
+
+    SOUND_BULLET_shot.initSound();
+
+    SOUND_step.initSound();
+    SOUND_collide.initSound();
 
 }
 
@@ -186,56 +209,50 @@ void Player::Move()
     //The frame and if-statement that control whether or not to change the players animation frame.
 
     bool shift = glfwGetKey( glfwGetCurrentContext(), GLFW_KEY_LEFT_SHIFT );
-
     bool allowFrameChange = false;
 
     extern int frame;
-    if( frame%10 == 0 )
+    if( frame%(10/(shift+1)) == 0 )
     {
 
         allowFrameChange = true;
 
     }
 
-    xvel = round( xvel*10 )/10;
-
-    yvel -= 0.5f;
+    yvel -= 1000.0f*TE_DELTA_TIME;
 
     //The If statements that control movement targets. Basically, just checking key-presses.
 
-    if( TE_KEYSTATES[GLFW_KEY_A] and jump )
+    if( TE_KEYSTATES[GLFW_KEY_A] )
     {
-        tarxvel = -5.0f * (shift+1);
-        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 15 ); }
-        dir = true;
-    }else if( TE_KEYSTATES[GLFW_KEY_D] and jump )
+
+        tarxvel = -maxhorispeed * (shift+1);
+        if( allowFrameChange and jump )
+        {
+
+            animframe++;
+            SOUND_step.Play( 50 );
+
+        }
+
+    }else if( TE_KEYSTATES[GLFW_KEY_D] )
     {
-        tarxvel = 5.0f * (shift+1);
-        if(allowFrameChange and yvel >= -0.5f and yvel < 0.5f ){animframe++; SOUND_step.Play( 15 ); }
-        dir = false;
-    }else if( jump )
+
+        tarxvel = maxhorispeed * (shift+1);
+        if( allowFrameChange and jump )
+        {
+
+            animframe++;
+            SOUND_step.Play( 50 );
+
+        }
+
+    }else
     {
+
         tarxvel = 0.0f;
-    }
-
-    if( TE_KEYSTATES[GLFW_KEY_A] and !jump )
-    {
-        tarxvel -= 1.0f;
-    }else if( TE_KEYSTATES[GLFW_KEY_D] and !jump )
-    {
-        tarxvel += 1.0f;
-    }
-
-    if( !jump and tarxvel > ( 5.0f * (shift+1) ) )
-    {
-        tarxvel = 5.0f * (shift+1);
-    }if( !jump and tarxvel < ( -5.0f * (shift+1) ) )
-    {
-        tarxvel = -5.0f * (shift+1);
-    }
-
-    if( !TE_KEYSTATES[GLFW_KEY_A] and !TE_KEYSTATES[GLFW_KEY_D] )
-    {
+        if( xvel < 0.0f and xvel > -100.0f ) xvel = 0.0f;
+        else if( xvel > 0.0f and xvel < 100.0f ) xvel = 0.0f;
 
         animframe = 0;
 
@@ -244,7 +261,7 @@ void Player::Move()
     if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump )
     {
 
-        yvel = 15.0f;
+        yvel = 600.0f;
         jump = !jump;
 
     }
@@ -254,13 +271,16 @@ void Player::Move()
     if( xvel < tarxvel )
     {
 
-        xvel += 1.0f;
+        xvel += 3000.0f*TE_DELTA_TIME;
+        if( xvel > tarxvel ) xvel = tarxvel;
 
     }
     if( xvel > tarxvel )
     {
 
-        xvel -= 1.0f;
+        xvel -= 3000.0f*TE_DELTA_TIME;
+
+        if( xvel < tarxvel ) xvel = tarxvel;
 
     }
 
@@ -292,15 +312,15 @@ void Player::Move()
                            TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
                            TE_MOUSE_POS.y+( plyrect.y  - (TE_WINDOW_HEIGHT/2.0) ) );
 
-    if( TE_MOUSEBUTTONS[GLFW_MOUSE_BUTTON_LEFT] )
+    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] )
     {
 
         int randnum = rand()%20;
         randnum = randnum-10;
 
-        bullets.push_back( Bullet() );
-        bullets.back().Shoot( armAng+randnum );
-        bullets.back().Create( bullet, plyrect.x+armx, plyrect.y+army, 30 );
+        bullets.push_back( Bullet( &SOUND_BULLET_shot ) );
+        bullets.back().Shoot( armAng+randnum, 2500 );
+        bullets.back().Create( bullet, plyrect.x+armx, plyrect.y+army, 3000 );
 
     }
 

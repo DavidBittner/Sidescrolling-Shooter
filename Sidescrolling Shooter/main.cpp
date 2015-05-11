@@ -79,8 +79,9 @@ int main()
         glfwSwapBuffers( window );
 
 		TE_CALC_FRAMES( stime );
-		cout << TE_CUR_SECOND << endl;
 
+        frame++;
+        if( frame == TE_FRAMES_PER_SECOND ) frame = 0;
 
 	}
 

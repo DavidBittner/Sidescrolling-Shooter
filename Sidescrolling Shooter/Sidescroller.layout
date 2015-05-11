@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="class_bullet.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1460" topLine="76" />
+		</Cursor>
+	</File>
+	<File name="state_game.h" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1046" topLine="31" />
+		</Cursor>
+	</File>
 	<File name="class_wall.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="770" topLine="20" />
@@ -11,24 +21,14 @@
 			<Cursor1 position="70" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="class_ply.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5218" topLine="222" />
+		</Cursor>
+	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1392" topLine="26" />
-		</Cursor>
-	</File>
-	<File name="class_ply.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4823" topLine="209" />
-		</Cursor>
-	</File>
-	<File name="state_game.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2478" topLine="109" />
-		</Cursor>
-	</File>
-	<File name="class_bullet.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1246" topLine="51" />
+			<Cursor1 position="312" topLine="18" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

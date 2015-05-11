@@ -7,12 +7,14 @@ class Bullet
 {
 
     public:
-        void Shoot( float ang );
+        void Shoot( float ang, int bulspeedval );
         void Move();
         void Draw();
         void Create( GLuint sprite, int x, int y, float speed );
 
-        Bullet();
+        void Kill();
+
+        Bullet( TE_SOUND *gunshot );
 
         TE_RECT *GetRect();
         bool IsAlive();
@@ -23,7 +25,10 @@ class Bullet
         float bulang;
         float bulspeed;
 
-        TE_SOUND SOUND_shot;
+        float xvel;
+        float yvel;
+
+        TE_SOUND *SOUND_shot;
 
         TE_RECT bulrect;
         TE_RECT colrect;
@@ -31,10 +36,10 @@ class Bullet
 
 };
 
-Bullet::Bullet():SOUND_shot( "sounds/game/gunshot.wav" )
+Bullet::Bullet( TE_SOUND *gunshot )
 {
 
-
+    SOUND_shot = gunshot;
 
 }
 
@@ -69,23 +74,46 @@ void Bullet::Move()
     if( isAlive )
     {
 
-        bulrect.x += (cos( bulang*(pi/180) )*bulspeed)*TE_DELTA_TIME;
-        bulrect.y += (sin( bulang*(pi/180) )*bulspeed)*TE_DELTA_TIME;
+        yvel-=50.0f*TE_DELTA_TIME;
+
+        bulrect.x += xvel*TE_DELTA_TIME;
+        bulrect.y += yvel*TE_DELTA_TIME;
 
         colrect.x = bulrect.x;
         colrect.y = bulrect.y+4;
+
+        if( bulrect.y < 0 ) isAlive = false;
 
     }
 
 
 }
 
-void Bullet::Shoot( float ang )
+void Bullet::Shoot( float ang, int bulspeedval )
 {
 
     isAlive = true;
     bulang = ang;
-    SOUND_shot.Play( 20 );
+    SOUND_shot->Play( 20 );
+
+    bulspeed = bulspeedval;
+
+    xvel = cos( bulang*(pi/180) )*bulspeed;
+    yvel = sin( bulang*(pi/180) )*bulspeed;
+
+}
+
+TE_RECT *Bullet::GetRect()
+{
+
+    return &colrect;
+
+}
+
+void Bullet::Kill()
+{
+
+    isAlive = false;
 
 }
 

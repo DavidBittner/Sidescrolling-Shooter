@@ -16,7 +16,7 @@ TE_SPRITE background;
 
 vector<Wall> Walls;
 
-TE_SOUND SOUND_test( "test.ogg" );
+TE_SOUND SOUND_test( "sounds/game/gamesong.ogg" );
 
 void STATE_GAME_LOAD()
 {
@@ -43,7 +43,7 @@ void STATE_GAME_LOAD()
     }
 
     SOUND_test.initSound();
-    SOUND_test.Play( 100 );
+    SOUND_test.Play( 50 );
 
 }
 
@@ -78,7 +78,7 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
             }else if( acentx < bcentx )
             {
 
-                a->x = b->x-a->w;
+                a->x = b->x-a->w+1;
                 ply.StopXVel( true );
                 ply.ResetJump();
 
@@ -110,6 +110,24 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
     }
 
     return false;
+
+}
+
+bool CHECK_BULLET_COLLISION( TE_RECT *a, TE_RECT *b )
+{
+
+    TE_RECT temp;
+    temp = *b;
+    temp.x = temp.x - temp.w/2;
+    temp.y = temp.y - temp.h/2;
+
+    temp.w = temp.w-10;
+    temp.x = temp.x+5;
+
+    temp.h = temp.h-10;
+    temp.y = temp.y+5;
+
+    return TE_AABB( a, &temp );
 
 }
 
@@ -148,15 +166,38 @@ void STATE_GAME_RUN()
 
     //Code that deals with collisions with the player and the walls.
 
+    unsigned int am = 0;
+
     for( unsigned i = 0; i < Walls.size(); i++ )
     {
 
-        Walls[i].Draw();
         STATE_GAME_ACT_ON_COLLISION( ply.GetRect(), Walls[i].GetRect() );
+
+        Bullet *temp;
+        temp = ply.GetBullets( &am );
+
+        for( unsigned int j = 0; j < am; j++ )
+        {
+
+            if( CHECK_BULLET_COLLISION( temp[j].GetRect(), Walls[i].GetRect() ) )
+            {
+
+                temp[j].Kill();
+
+            }
+
+        }
 
     }
 
     ply.Draw();
+
+    for( unsigned i = 0; i < Walls.size(); i++ )
+    {
+
+        Walls[i].Draw();
+
+    }
 
 }
 
