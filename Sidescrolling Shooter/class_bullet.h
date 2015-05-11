@@ -69,8 +69,8 @@ void Bullet::Move()
     if( isAlive )
     {
 
-        bulrect.x += (cos( bulang*(pi/180) )*bulspeed)*TE_SPEED_PROPORTION;
-        bulrect.y += (sin( bulang*(pi/180) )*bulspeed)*TE_SPEED_PROPORTION;
+        bulrect.x += (cos( bulang*(pi/180) )*bulspeed)*TE_DELTA_TIME;
+        bulrect.y += (sin( bulang*(pi/180) )*bulspeed)*TE_DELTA_TIME;
 
         colrect.x = bulrect.x;
         colrect.y = bulrect.y+4;

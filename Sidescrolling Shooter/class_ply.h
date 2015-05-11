@@ -264,8 +264,8 @@ void Player::Move()
 
     }
 
-    plyrect.x += xvel*TE_SPEED_PROPORTION;
-    plyrect.y += yvel*TE_SPEED_PROPORTION;
+    plyrect.x += xvel*TE_DELTA_TIME;
+    plyrect.y += yvel*TE_DELTA_TIME;
     colrect.x = plyrect.x+20.0f;
     colrect.y = plyrect.y;
 
