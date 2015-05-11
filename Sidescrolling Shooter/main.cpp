@@ -3,13 +3,19 @@
 #include <irrKlang/irrKlang.h>
 
 #include "state_game.h"
+#include "state_title.h"
+
 #include <string>
 #include <sstream>
+
+#include "struct_camera.h"
 
 #include <te_class_fonts.h>
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
+
+unsigned int GAME_STATE = 0;
 
 int frame = 0;
 
@@ -26,6 +32,11 @@ string ToString( int x )
 
 int main()
 {
+
+    camera temp;
+    temp.x = 0;
+    temp.y = 0;
+    MainCam = &temp;
 
 	bool fullscreen = false;
 	Font mainFont;
@@ -44,11 +55,9 @@ int main()
 	glClearColor( 0.6f, 0.8f, 1.0f, 1.0f );
 	TE_INIT( WINDOW_WIDTH, WINDOW_HEIGHT );
 
-    //Loading the game state.
-	STATE_GAME_LOAD();
 	mainFont.Create( 16, 8, "texs/gui/font.png" );
 
-    int windwid, windhei;
+    STATE_TITLE_LOAD();
 
 	while( !glfwWindowShouldClose( window ) )
 	{
@@ -59,21 +68,57 @@ int main()
 
 		glPushMatrix();
 
-        glfwGetWindowSize( window, &windwid, &windhei );
-
         float xtrans, ytrans;
         xtrans = MainCam->x - (TE_WINDOW_WIDTH/2.0);
-        ytrans = MainCam->y - (windhei/2.0);
+        ytrans = MainCam->y - (TE_WINDOW_HEIGHT/2.0);
 
         glTranslatef( -xtrans, -(ytrans), -1.0f );
 
-		STATE_GAME_RUN();
+        switch( GAME_STATE )
+        {
+
+            case 0:
+                {
+
+                    break;
+
+                }
+
+            case 1:
+                {
+
+                    STATE_GAME_RUN();
+                    break;
+
+                }
+
+        }
         TE_RESET_KEYS();
 		glPopMatrix();
 
 		//UI Elements
 		glPopMatrix();
 		glTranslatef(0.0f, 0.0f, -1.0f );
+
+        switch( GAME_STATE )
+        {
+
+            case 0:
+                {
+
+                    STATE_TITLE_RUN();
+                    break;
+
+                }
+            case 1:
+                {
+
+                    STATE_GAME_DRAW_GUI();
+                    break;
+
+                }
+
+        }
 
         glfwPollEvents();
         glfwSwapBuffers( window );
