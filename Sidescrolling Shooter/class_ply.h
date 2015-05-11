@@ -190,7 +190,7 @@ void Player::Move()
     bool allowFrameChange = false;
 
     extern int frame;
-    if( frame%20/((TE_KEYMODS[GLFW_MOD_SHIFT]+1)) == 0 )
+    if( frame%10 == 0 )
     {
 
         allowFrameChange = true;
@@ -264,8 +264,8 @@ void Player::Move()
 
     }
 
-    plyrect.x += xvel;
-    plyrect.y += yvel;
+    plyrect.x += xvel*TE_SPEED_PROPORTION;
+    plyrect.y += yvel*TE_SPEED_PROPORTION;
     colrect.x = plyrect.x+20.0f;
     colrect.y = plyrect.y;
 

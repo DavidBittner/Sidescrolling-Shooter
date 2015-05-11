@@ -11,8 +11,6 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
-const float FRAMES_PER_SECOND = 60.0f;
-float RUN_FRAMES_PER_SECOND = 0.0f;
 int frame = 0;
 
 float mouseX, mouseY;
@@ -54,11 +52,10 @@ int main()
 
 	while( !glfwWindowShouldClose( window ) )
 	{
-        float stime2 = glfwGetTime();
+        float stime = glfwGetTime();
+
         glClear( GL_COLOR_BUFFER_BIT );
         glLoadIdentity();
-
-        float stime = glfwGetTime();
 
 		glPushMatrix();
 
@@ -81,27 +78,11 @@ int main()
         glfwPollEvents();
         glfwSwapBuffers( window );
 
-        float etime = glfwGetTime();
+		TE_CALC_FRAMES( stime );
+
 		frame++;
 
-		if( etime-stime < 1000.0f/FRAMES_PER_SECOND )
-		{
-
-            //Sleep( (1000.0f/FRAMES_PER_SECOND) - (etime-stime) );
-
-		}
-
-        float etime2 = glfwGetTime();
-		frame++;
-
-		if( frame == FRAMES_PER_SECOND )
-		{
-
-			frame = 0;
-
-		}
-        RUN_FRAMES_PER_SECOND = 1000.0f/(1000*etime2-1000*stime2);
-        cout << RUN_FRAMES_PER_SECOND << endl;
+		if( frame%(int)TE_FRAMES_PER_SECOND == 0 ) frame = 0;
 
 	}
 
