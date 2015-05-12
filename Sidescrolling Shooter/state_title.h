@@ -15,6 +15,8 @@ void STATE_TITLE_LOAD()
     titlebuttons.push_back( TE_BUTTON() );
     titlebuttons[0].Create( 0, 400, 512, 128, 1, 4, "texs/gui/title_buttonsheet.png" );
     titlebuttons[0].SetAttrib( TE_BUTTON_CENTERX );
+    titlebuttons[0].SetAttrib( TE_BUTTON_SCALEX );
+    //titlebuttons[0].SetAttrib( TE_BUTTON_SCALEY );
 
     SOUND_titlemusic.initSound();
     SOUND_titlemusic.Play( 80, true );

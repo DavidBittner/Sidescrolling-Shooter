@@ -49,6 +49,7 @@
 		<Unit filename="class_wall.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="state_game.h" />
+		<Unit filename="state_title.h" />
 		<Unit filename="struct_camera.h" />
 		<Extensions>
 			<code_completion />

@@ -506,7 +506,7 @@
 1430774992 c:\users\david bittner\my programming\sidescrolling-shooter\sidescrolling shooter\class_wall.h
 	<te.h>
 
-1431370496 source:c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\main.cpp
+1431443268 source:c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\main.cpp
 	<GL/glew.h>
 	<GL/glfw.h>
 	<irrKlang/irrKlang.h>
@@ -517,7 +517,7 @@
 	"struct_camera.h"
 	<te_class_fonts.h>
 
-1431368077 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_game.h
+1431444779 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_game.h
 	"class_ply.h"
 	"class_wall.h"
 	<te.h>
@@ -528,18 +528,18 @@
 	"class_bullet.h"
 	"struct_camera.h"
 
-1428553368 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\struct_camera.h
+1431443973 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\struct_camera.h
 
 1431008634 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_wall.h
 	<te.h>
 
-1431369645 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_bullet.h
+1431444019 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_bullet.h
 	<te.h>
 
 1431302394 c:\users\david bittner\my programming\sidescrolling-shooter\sidescrolling shooter\class_bullet.h
 	<te.h>
 
-1431370303 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_title.h
+1431443316 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_title.h
 	<te.h>
 	<vector>
 	"state_game.h"

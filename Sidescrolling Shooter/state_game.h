@@ -17,7 +17,6 @@ TE_SPRITE background;
 vector<Wall> Walls;
 
 TE_SOUND SOUND_test( "sounds/game/gamesong.ogg" );
-TE_BUTTON Test;
 
 void STATE_GAME_LOAD()
 {
@@ -45,8 +44,6 @@ void STATE_GAME_LOAD()
 
     SOUND_test.initSound();
     SOUND_test.Play( 50 );
-
-    Test.Create( 0, 0, 512, 128, 1, 4, "texs/gui/buttontest.png" );
 
 }
 
@@ -207,8 +204,7 @@ void STATE_GAME_RUN()
 void STATE_GAME_DRAW_GUI()
 {
 
-    Test.MouseIsOver();
-    Test.Draw();
+    //GUI methods here.
 
 }
 
