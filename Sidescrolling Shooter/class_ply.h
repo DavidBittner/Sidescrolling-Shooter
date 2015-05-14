@@ -312,7 +312,7 @@ void Player::Move()
                            TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
                            TE_MOUSE_POS.y+( plyrect.y  - (TE_WINDOW_HEIGHT/2.0) ) );
 
-    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] )
+    if( TE_MOUSEBUTTONS[GLFW_MOUSE_BUTTON_LEFT] )
     {
 
         int randnum = rand()%20;
