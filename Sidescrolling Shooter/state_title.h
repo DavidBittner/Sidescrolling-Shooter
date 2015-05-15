@@ -8,6 +8,7 @@
 
 static vector< TE_BUTTON > titlebuttons;
 static TE_SOUND SOUND_titlemusic( "sounds/gui/maintheme.ogg" );
+static TE_SPRITE titlebackg;
 
 void STATE_TITLE_LOAD()
 {
@@ -24,10 +25,15 @@ void STATE_TITLE_LOAD()
     SOUND_titlemusic.initSound();
     SOUND_titlemusic.Play( 80, true );
 
+    titlebackg.Create( 0, 1, 1 );
+    titlebackg.LoadThruFunc( "texs/gui/title_background.png", 2048, 2048, GL_LINEAR );
+
 }
 
 void STATE_TITLE_RUN()
 {
+
+    titlebackg.Draw( 0, 1024, 1024, 2048, 2048, 0.0f );
 
     for( unsigned i = 0; i < titlebuttons.size(); i++ )
     {

@@ -74,7 +74,7 @@ void Bullet::Move()
     if( isAlive )
     {
 
-        yvel-=50.0f*TE_DELTA_TIME;
+        yvel-=500.0f*TE_DELTA_TIME;
 
         bulrect.x += xvel*TE_DELTA_TIME;
         bulrect.y += yvel*TE_DELTA_TIME;
