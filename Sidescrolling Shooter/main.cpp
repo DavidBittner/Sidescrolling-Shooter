@@ -58,6 +58,7 @@ int main()
 	mainFont.Create( 16, 8, "texs/gui/font.png" );
 
     STATE_TITLE_LOAD();
+	//glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
 
 	while( !glfwWindowShouldClose( window ) )
 	{

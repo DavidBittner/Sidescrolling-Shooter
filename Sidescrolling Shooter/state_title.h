@@ -7,16 +7,19 @@
 #include "state_game.h"
 
 static vector< TE_BUTTON > titlebuttons;
-static TE_SOUND SOUND_titlemusic( "sounds/gui/titlesong.ogg" );
+static TE_SOUND SOUND_titlemusic( "sounds/gui/maintheme.ogg" );
 
 void STATE_TITLE_LOAD()
 {
 
-    titlebuttons.push_back( TE_BUTTON() );
-    titlebuttons[0].Create( 0, 400, 512, 128, 1, 4, "texs/gui/title_buttonsheet.png" );
-    titlebuttons[0].SetAttrib( TE_BUTTON_CENTERX );
-    titlebuttons[0].SetAttrib( TE_BUTTON_SCALEX );
-    //titlebuttons[0].SetAttrib( TE_BUTTON_SCALEY );
+    for( int i = 0; i < 3; i++ )
+    {
+
+        titlebuttons.push_back( TE_BUTTON() );
+        titlebuttons[i].Create( 0, i*128 + 40*i + 40, 512, 128, 1, 4, "texs/gui/title_sheet.png" );
+        titlebuttons[i].SetAttrib( TE_BUTTON_CENTERX );
+
+    }
 
     SOUND_titlemusic.initSound();
     SOUND_titlemusic.Play( 80, true );
@@ -30,7 +33,7 @@ void STATE_TITLE_RUN()
     {
 
         titlebuttons[i].MouseIsOver();
-        titlebuttons[i].Draw();
+        titlebuttons[i].Draw( i );
 
     }
 

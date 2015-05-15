@@ -117,7 +117,7 @@ void Player::StopXVel( bool left )
 
     plyrect.x = colrect.x-20.0f;
 
-    if( xvel > 1.0f or xvel < -1.0f )
+    if( xvel > 300.0f or xvel < -300.0f )
     {
 
         SOUND_collide.Play( abs(xvel*10.0) );
@@ -133,7 +133,7 @@ void Player::StopYVel()
 
     plyrect.y = colrect.y;
 
-    if( (yvel > 0.5f or yvel < -0.5f) and yvel < 15.0f )
+    if( (yvel > 30.0f or yvel < -30.0f) )
     {
 
         SOUND_collide.Play( abs(yvel*5.0) );
@@ -271,14 +271,14 @@ void Player::Move()
     if( xvel < tarxvel )
     {
 
-        xvel += 3000.0f*TE_DELTA_TIME;
+        xvel += 4000.0f*TE_DELTA_TIME;
         if( xvel > tarxvel ) xvel = tarxvel;
 
     }
     if( xvel > tarxvel )
     {
 
-        xvel -= 3000.0f*TE_DELTA_TIME;
+        xvel -= 4000.0f*TE_DELTA_TIME;
 
         if( xvel < tarxvel ) xvel = tarxvel;
 
@@ -292,7 +292,7 @@ void Player::Move()
     if( plyrect.y < plyrect.w/2 )
     {
 
-        if( yvel > 0.5f or yvel < -0.5f )
+        if( yvel > 30.0f or yvel < -30.0f )
         {
 
             SOUND_collide.Play( abs(yvel*5.0) );
@@ -312,11 +312,11 @@ void Player::Move()
                            TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
                            TE_MOUSE_POS.y+( plyrect.y  - (TE_WINDOW_HEIGHT/2.0) ) );
 
-    if( TE_MOUSEBUTTONS[GLFW_MOUSE_BUTTON_LEFT] )
+    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] )
     {
 
-        int randnum = rand()%20;
-        randnum = randnum-10;
+        int randnum = rand()%5;
+        randnum = randnum-2;
 
         bullets.push_back( Bullet( &SOUND_BULLET_shot ) );
         bullets.back().Shoot( armAng+randnum, 2500 );

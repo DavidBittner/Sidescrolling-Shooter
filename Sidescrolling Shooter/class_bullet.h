@@ -94,7 +94,7 @@ void Bullet::Shoot( float ang, int bulspeedval )
 
     isAlive = true;
     bulang = ang;
-    SOUND_shot->Play( 20 );
+    SOUND_shot->Play( 80 );
 
     bulspeed = bulspeedval;
 
