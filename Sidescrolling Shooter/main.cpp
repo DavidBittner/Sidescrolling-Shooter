@@ -58,7 +58,7 @@ int main()
 	mainFont.Create( 16, 8, "texs/gui/font.png" );
 
     STATE_TITLE_LOAD();
-	//glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
+	glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
 
 	while( !glfwWindowShouldClose( window ) )
 	{
@@ -73,6 +73,7 @@ int main()
         xtrans = MainCam->x - (TE_WINDOW_WIDTH/2.0);
         ytrans = MainCam->y - (TE_WINDOW_HEIGHT/2.0);
 
+        if( ytrans < -250 ) ytrans = -250;
         glTranslatef( -xtrans, -(ytrans), -1.0f );
 
         switch( GAME_STATE )

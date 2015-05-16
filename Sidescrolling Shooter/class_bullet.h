@@ -7,10 +7,10 @@ class Bullet
 {
 
     public:
-        void Shoot( float ang, int bulspeedval );
+        void Shoot( float ang, float bulspeedval, float buldamage );
         void Move();
         void Draw();
-        void Create( GLuint sprite, int x, int y, float speed );
+        void Create( GLuint sprite, int x, int y );
 
         void Kill();
 
@@ -28,6 +28,8 @@ class Bullet
         float xvel;
         float yvel;
 
+        float buldamage;
+
         TE_SOUND *SOUND_shot;
 
         TE_RECT bulrect;
@@ -43,7 +45,7 @@ Bullet::Bullet( TE_SOUND *gunshot )
 
 }
 
-void Bullet::Create( GLuint sprite, int x, int y, float speed )
+void Bullet::Create( GLuint sprite, int x, int y )
 {
 
     bulrect.x = x;
@@ -55,8 +57,6 @@ void Bullet::Create( GLuint sprite, int x, int y, float speed )
     colrect.y = bulrect.y+3;
     colrect.w = 16;
     colrect.h = 10;
-
-    bulspeed = speed;
 
     bullet.Create( sprite, 1, 1 );
 
@@ -89,7 +89,7 @@ void Bullet::Move()
 
 }
 
-void Bullet::Shoot( float ang, int bulspeedval )
+void Bullet::Shoot( float ang, float bulspeedval, float damage )
 {
 
     isAlive = true;
@@ -97,6 +97,7 @@ void Bullet::Shoot( float ang, int bulspeedval )
     SOUND_shot->Play( 80 );
 
     bulspeed = bulspeedval;
+    buldamage = damage;
 
     xvel = cos( bulang*(pi/180) )*bulspeed;
     yvel = sin( bulang*(pi/180) )*bulspeed;
