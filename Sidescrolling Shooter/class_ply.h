@@ -5,6 +5,7 @@
 #include "class_bullet.h"
 #include "struct_camera.h"
 
+TE_SPRITE BULLET_IND;
 GLuint bullet;
 
 /*
@@ -16,7 +17,7 @@ GLuint bullet;
 6 - Automatic
 */
 
-float MACH_TRAITS[] =
+float *MACH_TRAITS[] =
 {
 
     2000,
@@ -28,7 +29,7 @@ float MACH_TRAITS[] =
 
 };
 
-float PIST_TRAITS[] =
+float *PIST_TRAITS[] =
 {
 
     2000,
@@ -40,7 +41,7 @@ float PIST_TRAITS[] =
 
 };
 
-float RIF_TRAITS[] =
+float *RIF_TRAITS[] =
 {
     3000,
     6,
@@ -50,7 +51,7 @@ float RIF_TRAITS[] =
     0
 };
 
-float SHOT_TRAITS[] =
+float *SHOT_TRAITS[] =
 {
 
     3000,
@@ -101,6 +102,7 @@ class Player
         void Create();
 
         void Draw();
+        void DrawGUI();
         void Move();
 
         //Stopping various velocities for collisions, and resetting the jump boolean.
@@ -154,6 +156,11 @@ class Player
         weapon WEAPON_PISTOL;
         weapon WEAPON_MACHINE_GUN;
         weapon WEAPON_SHOT_GUN;
+        int AMMO_PIST;
+        int AMMO_RIFLE;
+        int AMMO_SHOT;
+        int AMMO_MACHIN;
+        int curclip;
 
         weapon *curwep;
 
@@ -270,6 +277,9 @@ void Player::Create()
     armSprite.LoadThruFunc( "texs/game/arm.png", 32, 8, GL_NEAREST );
     bullet = LoadTexture( "texs/game/bullet.png", 16, 16, GL_NEAREST, GL_NEAREST );
 
+    BULLET_IND.Create( 0, 1, 1 );
+    BULLET_IND.LoadThruFunc( "texs/game/ammo_counter.png", 32, 8, GL_NEAREST );
+
     SOUND_BULLET_shot.initSound();
 
     SOUND_step.initSound();
@@ -282,6 +292,12 @@ void Player::Create()
     WEAPON_SHOT_GUN.CreateWep( SHOT_TRAITS[0], SHOT_TRAITS[1], SHOT_TRAITS[2], SHOT_TRAITS[3], SHOT_TRAITS[4], SHOT_TRAITS[5] );
     WEAPON_MACHINE_GUN.CreateWep( MACH_TRAITS[0], MACH_TRAITS[1], MACH_TRAITS[2], MACH_TRAITS[3], MACH_TRAITS[4], MACH_TRAITS[5] );
     curwep = &WEAPON_PISTOL;
+    curclip = curwep->clipsize;
+
+    AMMO_PIST = 200;
+    AMMO_RIFLE = 200;
+    AMMO_SHOT = 200;
+    AMMO_MACHIN = 200;
 
 }
 
@@ -306,6 +322,25 @@ void Player::Draw()
     }
 
     armSprite.Draw( 0, plyrect.x+armx, plyrect.y+army, 64, 8, armAng );
+
+}
+
+void Player::DrawGUI()
+{
+
+    float bulletscale = TE_WINDOW_HEIGHT/curwep->clipsize;
+
+    for( int i = 0; i < curclip; i++ )
+    {
+
+        glPushAttrib( GL_CURRENT_BIT );
+        glColor4f( 1.0f, 1.0f, 1.0f, 0.4f );
+
+        BULLET_IND.Draw( 0, 32, i*bulletscale + bulletscale/2.0f, 64, bulletscale, 0.0f );
+
+        glPopAttrib();
+
+    }
 
 }
 
@@ -420,16 +455,15 @@ void Player::Move()
     if( ytrans < -250 ) ytrans = -250;
 
     if( TE_KEYPRESS[GLFW_KEY_1] ) curwep = &WEAPON_PISTOL;
-    else if( TE_KEYPRESS[GLFW_KEY_2] ) curwep = &WEAPON_RIFLE;
-    else if( TE_KEYPRESS[GLFW_KEY_3] ) curwep = &WEAPON_SHOT_GUN;
-    else if( TE_KEYPRESS[GLFW_KEY_4] ) curwep = &WEAPON_MACHINE_GUN;
+    else if( TE_KEYPRESS[GLFW_KEY_2] ){ curwep = &WEAPON_RIFLE; curclip = curwep->clipsize; }
+    else if( TE_KEYPRESS[GLFW_KEY_3] ){ curwep = &WEAPON_SHOT_GUN; curclip = curwep->clipsize; }
+    else if( TE_KEYPRESS[GLFW_KEY_4] ){ curwep = &WEAPON_MACHINE_GUN; curclip = curwep->clipsize; }
 
     armAng = TE_GET_INCLIN( plyrect.x+armx, plyrect.y+army,
                            TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
                            TE_MOUSE_POS.y+( ytrans ) );
 
-
-    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat )
+    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 )
     {
 
         for( int i = 0; i < curwep->bulletspershot; i++ )
@@ -447,8 +481,9 @@ void Player::Move()
                                    plyrect.y+army );
 
         }
+        curclip--;
 
-    }else if( TE_MOUSEBUTTONS[ GLFW_MOUSE_BUTTON_LEFT ] and curwep->automat )
+    }else if( TE_MOUSEBUTTONS[ GLFW_MOUSE_BUTTON_LEFT ] and curwep->automat and curclip > 0 )
     {
 
         for( int i = 0; i < curwep->bulletspershot; i++ )
@@ -466,6 +501,7 @@ void Player::Move()
                                    plyrect.y+army );
 
         }
+        curclip--;
 
     }
 

@@ -519,13 +519,13 @@
 	"struct_camera.h"
 	<te_class_fonts.h>
 
-1431694274 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_game.h
+1431953775 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_game.h
 	"class_ply.h"
 	"class_wall.h"
 	<te.h>
 	<vector>
 
-1431716936 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_ply.h
+1431955070 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_ply.h
 	<te.h>
 	"class_bullet.h"
 	"struct_camera.h"

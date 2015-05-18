@@ -205,6 +205,7 @@ void STATE_GAME_DRAW_GUI()
 {
 
     //GUI methods here.
+    ply.DrawGUI();
 
 }
 
