@@ -94,7 +94,7 @@ void Bullet::Shoot( float ang, float bulspeedval, float damage )
 
     isAlive = true;
     bulang = ang;
-    SOUND_shot->Play( 80 );
+    SOUND_shot->Play( 20 );
 
     bulspeed = bulspeedval;
     buldamage = damage;
@@ -115,6 +115,13 @@ void Bullet::Kill()
 {
 
     isAlive = false;
+
+}
+
+bool Bullet::IsAlive()
+{
+
+    return isAlive;
 
 }
 

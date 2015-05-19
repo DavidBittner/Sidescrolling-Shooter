@@ -8,89 +8,39 @@
 TE_SPRITE BULLET_IND;
 GLuint bullet;
 
-/*
-1 - Bullet Speed
-2 - Bullet Spread (degrees +- 1/2 of value)
-3 - Bullet damage
-4 - Bullets Per Shot
-5 - Bullets Per Clip
-6 - Automatic
-*/
-
-float *MACH_TRAITS[] =
-{
-
-    2000,
-    20,
-    5,
-    1,
-    40,
-    1
-
-};
-
-float *PIST_TRAITS[] =
-{
-
-    2000,
-    12,
-    10,
-    1,
-    13,
-    0
-
-};
-
-float *RIF_TRAITS[] =
-{
-    3000,
-    6,
-    50,
-    1,
-    8,
-    0
-};
-
-float *SHOT_TRAITS[] =
-{
-
-    3000,
-    40,
-    10,
-    5,
-    8,
-    0
-
-};
-
 struct weapon
 {
 
-    float bulletspeed;
-    float bulletspread;
-    float bulletdamage;
+    int bulletspeed;
+    int bulletspread;
+    int bulletdamage;
 
-    float bulletspershot;
+    int bulletspershot;
+    int firerate;
 
-    float clipsize;
-    bool automat;
+    int clipsize;
+    int ammo;
+
+    int automat;
 
     GLuint tex;
 
-    void CreateWep( float a, float b, float c, float d, float e, float f );
+    void CreateWep( int speed, int spread, int damage, int ampershot, int amperclip, int isauto, int rps );
 
 };
 
-void weapon::CreateWep( float a, float b, float c, float d, float e, float f )
+void weapon::CreateWep( int speed, int spread, int damage, int ampershot, int amperclip, int isauto, int rps )
 {
 
-    bulletspeed = a;
-    bulletspread = b;
-    bulletdamage = c;
-    bulletspershot = d;
-    clipsize = e;
-    automat = f;
-    cout << automat << endl;
+    bulletspeed = speed;
+    bulletspread = spread;
+    bulletdamage = damage;
+    bulletspershot = ampershot;
+    clipsize = amperclip;
+    automat = isauto;
+    firerate = rps;
+
+    ammo = 50;
 
 }
 
@@ -160,9 +110,13 @@ class Player
         int AMMO_RIFLE;
         int AMMO_SHOT;
         int AMMO_MACHIN;
-        int curclip;
 
+        float lastshot;
+
+        int curclip;
         weapon *curwep;
+        void SwitchWep( weapon *wep );
+        void Reload();
 
 };
 
@@ -198,6 +152,8 @@ Player::Player():
     plyrect.y = plyrect.w+128.0f;
     colrect.x = plyrect.x+24.0f;
     colrect.y = plyrect.y;
+
+    lastshot = TE_CUR_SECOND;
 
     maxhorispeed = 600;
 
@@ -287,17 +243,49 @@ void Player::Create()
 
     health = 100.0f;
 
-    WEAPON_PISTOL.CreateWep( PIST_TRAITS[0], PIST_TRAITS[1], PIST_TRAITS[2], PIST_TRAITS[3], PIST_TRAITS[4], SHOT_TRAITS[5] );
-    WEAPON_RIFLE.CreateWep( RIF_TRAITS[0], RIF_TRAITS[1], RIF_TRAITS[2], RIF_TRAITS[3], RIF_TRAITS[4], SHOT_TRAITS[5] );
-    WEAPON_SHOT_GUN.CreateWep( SHOT_TRAITS[0], SHOT_TRAITS[1], SHOT_TRAITS[2], SHOT_TRAITS[3], SHOT_TRAITS[4], SHOT_TRAITS[5] );
-    WEAPON_MACHINE_GUN.CreateWep( MACH_TRAITS[0], MACH_TRAITS[1], MACH_TRAITS[2], MACH_TRAITS[3], MACH_TRAITS[4], MACH_TRAITS[5] );
+    // Speed, Spread, Damage, Bullets per shot, Clip size, Is Auto, Shots per Second
+
+    WEAPON_PISTOL.CreateWep(        2000, 6, 5, 1, 13, 0, 10  );
+    WEAPON_SHOT_GUN.CreateWep(      2000, 40, 5, 6, 6, 0, 2   );
+    WEAPON_RIFLE.CreateWep(         3500, 2, 100, 1, 10, 0, 1 );
+    WEAPON_MACHINE_GUN.CreateWep(   2000, 10, 5, 1, 30, 1, 10 );
+
     curwep = &WEAPON_PISTOL;
     curclip = curwep->clipsize;
 
-    AMMO_PIST = 200;
-    AMMO_RIFLE = 200;
-    AMMO_SHOT = 200;
-    AMMO_MACHIN = 200;
+}
+
+void Player::SwitchWep( weapon *wep )
+{
+
+    curwep->ammo+=curclip;
+    curclip = 0;
+    curwep = wep;
+
+    if( curwep->ammo > 0 )
+    {
+        curwep->ammo-=curwep->clipsize;
+        curclip = curwep->clipsize;
+    }
+
+}
+
+void Player::Reload()
+{
+
+    if( curwep->ammo > 0 )
+    {
+
+        if( curwep->ammo > curwep->clipsize )
+        {
+            curwep->ammo-=(curwep->clipsize - curclip);
+            curclip = curwep->clipsize;
+        }else
+        {
+            curclip = curwep->ammo;
+            curwep->ammo-=curclip;
+        }
+    }
 
 }
 
@@ -454,18 +442,29 @@ void Player::Move()
     ytrans = plyrect.y - ( TE_WINDOW_HEIGHT/2.0 );
     if( ytrans < -250 ) ytrans = -250;
 
-    if( TE_KEYPRESS[GLFW_KEY_1] ) curwep = &WEAPON_PISTOL;
-    else if( TE_KEYPRESS[GLFW_KEY_2] ){ curwep = &WEAPON_RIFLE; curclip = curwep->clipsize; }
-    else if( TE_KEYPRESS[GLFW_KEY_3] ){ curwep = &WEAPON_SHOT_GUN; curclip = curwep->clipsize; }
-    else if( TE_KEYPRESS[GLFW_KEY_4] ){ curwep = &WEAPON_MACHINE_GUN; curclip = curwep->clipsize; }
+    //Just weapon switches and reloading.
+
+         if( TE_KEYPRESS[GLFW_KEY_1] ){ SwitchWep( &WEAPON_PISTOL ); }
+    else if( TE_KEYPRESS[GLFW_KEY_2] ){ SwitchWep( &WEAPON_RIFLE ); }
+    else if( TE_KEYPRESS[GLFW_KEY_3] ){ SwitchWep( &WEAPON_SHOT_GUN ); }
+    else if( TE_KEYPRESS[GLFW_KEY_4] ){ SwitchWep( &WEAPON_MACHINE_GUN ); }
+
+    if( TE_KEYPRESS[GLFW_KEY_R] ){ Reload(); }
+
+    //Calculating the rotation angle for the arm.
 
     armAng = TE_GET_INCLIN( plyrect.x+armx, plyrect.y+army,
                            TE_MOUSE_POS.x+( plyrect.x  - (TE_WINDOW_WIDTH/2.0) ),
                            TE_MOUSE_POS.y+( ytrans ) );
 
-    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 )
+    //Deals with shooting a shot with all the different curwep attributes.
+    bool allowshot = false;
+    if( TE_CUR_SECOND - lastshot > (100.0f/curwep->firerate)/100.0f ){ allowshot = true; }
+
+    if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 and allowshot )
     {
 
+        lastshot = TE_CUR_SECOND;
         for( int i = 0; i < curwep->bulletspershot; i++ )
         {
 
@@ -483,9 +482,10 @@ void Player::Move()
         }
         curclip--;
 
-    }else if( TE_MOUSEBUTTONS[ GLFW_MOUSE_BUTTON_LEFT ] and curwep->automat and curclip > 0 )
+    }else if( TE_MOUSEBUTTONS[ GLFW_MOUSE_BUTTON_LEFT ] and curwep->automat and curclip > 0 and allowshot )
     {
 
+        lastshot = TE_CUR_SECOND;
         for( int i = 0; i < curwep->bulletspershot; i++ )
         {
 

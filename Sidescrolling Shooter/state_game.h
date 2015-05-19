@@ -16,7 +16,8 @@ TE_SPRITE background;
 
 vector<Wall> Walls;
 
-TE_SOUND SOUND_test( "sounds/game/gamesong.ogg" );
+TE_SOUND SOUND_gamesong( "sounds/game/gamesong.ogg" );
+TE_SOUND SOUND_bullethit( "sounds/game/bullethit.ogg" );
 
 void STATE_GAME_LOAD()
 {
@@ -42,8 +43,7 @@ void STATE_GAME_LOAD()
 
     }
 
-    SOUND_test.initSound();
-    SOUND_test.Play( 50 );
+    SOUND_bullethit.initSound();
 
 }
 
@@ -179,10 +179,11 @@ void STATE_GAME_RUN()
         for( unsigned int j = 0; j < am; j++ )
         {
 
-            if( CHECK_BULLET_COLLISION( temp[j].GetRect(), Walls[i].GetRect() ) )
+            if( temp[j].IsAlive() and CHECK_BULLET_COLLISION( temp[j].GetRect(), Walls[i].GetRect() ) )
             {
 
                 temp[j].Kill();
+                SOUND_bullethit.Play(20);
 
             }
 
