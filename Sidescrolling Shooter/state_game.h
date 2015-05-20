@@ -35,11 +35,12 @@ void STATE_GAME_LOAD()
 
     GLuint walltex = LoadTexture( "texs/game/wall.png", 256, 256, GL_LINEAR, GL_NEAREST );
 
-    for( int i = 0; i < 40; i++ )
+    for( int i = 0; i < 20; i++ )
     {
 
         Walls.push_back( Wall() );
-        Walls.back().Create( walltex, 64+(i*256), 64 + (i*128 ) );
+        Walls.back().Create( walltex, 256, 64 + (i*128 ) );
+        Walls.back().Create( walltex, -256, 64 + (i*128 ) );
 
     }
 
@@ -78,7 +79,7 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
             }else if( acentx < bcentx )
             {
 
-                a->x = b->x-a->w+1;
+                a->x = b->x-a->w;
                 ply.StopXVel( true );
                 ply.ResetJump();
 
@@ -92,7 +93,7 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
             {
 
                 a->y = b->y+b->h;
-                ply.StopYVel();
+                if( horzdist!= 105 and horzdist != 106 )ply.StopYVel();
                 ply.ResetJump();
 
             }else if( acenty < bcenty and ply.getYVel() > 0 )

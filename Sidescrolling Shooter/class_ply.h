@@ -69,7 +69,10 @@ class Player
         Bullet *GetBullets( unsigned int *am );
 
     private:
-        float mass;
+
+        bool hasCollidedHori;
+        bool hasCollidedVert;
+
         double xvel, yvel;
         float tarxvel;
 
@@ -187,6 +190,7 @@ void Player::StopXVel( bool left )
     }
     xvel = 0.0f;
     tarxvel = 0.0f;
+    hasCollidedHori = true;
 
 }
 
@@ -209,6 +213,7 @@ void Player::StopYVel()
     health-=damage*100;
 
     yvel = 0.0f;
+    hasCollidedVert = true;
 
 }
 
@@ -355,9 +360,10 @@ void Player::Move()
 
     }
 
-    yvel -= 1000.0f*TE_DELTA_TIME;
-
     //The If statements that control movement targets. Basically, just checking key-presses.
+
+    if(!hasCollidedHori or yvel>0 )yvel-=1000.0f*TE_DELTA_TIME;
+    else yvel-=200.0f*TE_DELTA_TIME;
 
     if( TE_KEYSTATES[GLFW_KEY_A] )
     {
@@ -407,14 +413,14 @@ void Player::Move()
     if( xvel < tarxvel )
     {
 
-        xvel += 4000.0f*TE_DELTA_TIME;
+        xvel += 5000.0f*TE_DELTA_TIME;
         if( xvel > tarxvel ) xvel = tarxvel;
 
     }
     if( xvel > tarxvel )
     {
 
-        xvel -= 4000.0f*TE_DELTA_TIME;
+        xvel -= 5000.0f*TE_DELTA_TIME;
 
         if( xvel < tarxvel ) xvel = tarxvel;
 
@@ -511,6 +517,9 @@ void Player::Move()
         bullets[i].Move();
 
     }
+
+    hasCollidedHori = false;
+    hasCollidedVert = false;
 
 }
 
