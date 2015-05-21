@@ -74,6 +74,7 @@ class Player
         bool hasCollidedVert;
 
         double xvel, yvel;
+        float propelx, propely;
         float tarxvel;
 
         int maxhorispeed;
@@ -84,6 +85,8 @@ class Player
 
         int animframe;
         bool dir;
+
+        void Propel( float ang, float strength );
 
         camera cam;
 
@@ -199,15 +202,16 @@ void Player::StopYVel()
 
     plyrect.y = colrect.y;
 
-    if( (yvel > 30.0f or yvel < -30.0f) )
+    if( (yvel > 80.0f or yvel < -80.0f) )
     {
 
         SOUND_collide.Play( abs(yvel*5.0) );
 
     }
+
     float damage;
 
-    if( abs(yvel) > 2000.0f ){ damage = abs(yvel)/10000.0f;}
+    if( abs(yvel) > 2000.0f ){ damage = (abs(yvel))/8000.0f; cout << health - damage*100 << endl; }
     else damage = 0.0f;
 
     health-=damage*100;
@@ -321,6 +325,14 @@ void Player::Draw()
 void Player::DrawGUI()
 {
 
+    float healthwid = 32;
+    TE_RECT healthbar;
+    healthbar.x = TE_WINDOW_WIDTH - 32;
+    healthbar.w = healthwid;
+    healthbar.h = health*2;
+    healthbar.y = 32 + healthbar.h/2.0f;
+    healthbar.Draw( 1.0f-( health/100.0f), health/100.0f, 0.0f, 0.0f );
+
     float bulletscale = TE_WINDOW_HEIGHT/curwep->clipsize;
 
     for( int i = 0; i < curclip; i++ )
@@ -344,6 +356,17 @@ TE_RECT *Player::GetRect()
 
 }
 
+void Player::Propel( float ang, float strength )
+{
+
+    if( curwep->automat )strength = strength*(curwep->bulletdamage*curwep->bulletspershot)*7;
+    else strength = strength*(curwep->bulletdamage*curwep->bulletspershot);
+
+    propelx -= (cos( ang*(pi/180) )*strength)*TE_DELTA_TIME;
+    propely -= (sin( ang*(pi/180) )*strength)*TE_DELTA_TIME;
+
+}
+
 void Player::Move()
 {
 
@@ -362,7 +385,7 @@ void Player::Move()
 
     //The If statements that control movement targets. Basically, just checking key-presses.
 
-    if(!hasCollidedHori or yvel>0 )yvel-=1000.0f*TE_DELTA_TIME;
+    if(!hasCollidedHori or yvel>0 )yvel-=2000.0f*TE_DELTA_TIME;
     else yvel-=200.0f*TE_DELTA_TIME;
 
     if( TE_KEYSTATES[GLFW_KEY_A] )
@@ -426,10 +449,17 @@ void Player::Move()
 
     }
 
+    xvel+=propelx;
+    yvel+=propely;
+
     plyrect.x += xvel*TE_DELTA_TIME;
     plyrect.y += yvel*TE_DELTA_TIME;
+
     colrect.x = plyrect.x+20.0f;
     colrect.y = plyrect.y;
+
+    propelx = propelx/1.2f;
+    propely = propely/1.4f;
 
     if( plyrect.y < plyrect.w/2 )
     {
@@ -467,6 +497,8 @@ void Player::Move()
     bool allowshot = false;
     if( TE_CUR_SECOND - lastshot > (100.0f/curwep->firerate)/100.0f ){ allowshot = true; }
 
+    int propelstren = 100;
+
     if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 and allowshot )
     {
 
@@ -484,6 +516,7 @@ void Player::Move()
             bullets.back().Create( bullet,
                                    plyrect.x+armx,
                                    plyrect.y+army );
+            Propel( armAng, propelstren );
 
         }
         curclip--;
@@ -505,6 +538,8 @@ void Player::Move()
             bullets.back().Create( bullet,
                                    plyrect.x+armx,
                                    plyrect.y+army );
+
+            Propel( armAng, propelstren );
 
         }
         curclip--;
