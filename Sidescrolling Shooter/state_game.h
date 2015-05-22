@@ -16,7 +16,7 @@ TE_SPRITE background;
 
 vector<Wall> Walls;
 
-TE_SOUND SOUND_gamesong( "sounds/game/gamesong.ogg" );
+TE_SOUND SOUND_gamesong( "sounds/game/gamemusic.ogg" );
 TE_SOUND SOUND_bullethit( "sounds/game/bullethit.ogg" );
 
 void STATE_GAME_LOAD()
@@ -45,6 +45,8 @@ void STATE_GAME_LOAD()
     }
 
     SOUND_bullethit.initSound();
+    SOUND_gamesong.initSound();
+    //SOUND_gamesong.Play( 5, true );
 
 }
 

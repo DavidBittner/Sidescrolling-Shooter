@@ -556,6 +556,8 @@ void Player::Move()
     hasCollidedHori = false;
     hasCollidedVert = false;
 
+    alListener3f( AL_POSITION, plyrect.x, plyrect.y, 0.0f );
+
 }
 
 #endif // CLASS_PLY_H_INCLUDED
