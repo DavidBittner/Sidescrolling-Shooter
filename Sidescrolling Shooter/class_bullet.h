@@ -2,6 +2,7 @@
 #define CLASS_BULLET_H_INCLUDED
 
 #include <te.h>
+#include <te_class_particle.h>
 
 class Bullet
 {
@@ -10,7 +11,7 @@ class Bullet
         void Shoot( float ang, float bulspeedval, float buldamage );
         void Move();
         void Draw();
-        void Create( GLuint sprite, int x, int y );
+        void Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite );
 
         void Kill();
 
@@ -36,6 +37,9 @@ class Bullet
         TE_RECT colrect;
         TE_SPRITE bullet;
 
+        TE_SPRITE *particsprite;
+        TE_PARTICLE_CONTROLLER parts;
+
 };
 
 Bullet::Bullet( TE_SOUND *gunshot )
@@ -45,7 +49,7 @@ Bullet::Bullet( TE_SOUND *gunshot )
 
 }
 
-void Bullet::Create( GLuint sprite, int x, int y )
+void Bullet::Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite )
 {
 
     bulrect.x = x;
@@ -59,13 +63,15 @@ void Bullet::Create( GLuint sprite, int x, int y )
     colrect.h = 10;
 
     bullet.Create( sprite, 1, 1 );
+    parts.Create( partsprite, 16, 16, 4, 30, 200 );
 
 }
 
 void Bullet::Draw()
 {
 
-    if( isAlive ) bullet.Draw( 0, bulrect.x, bulrect.y, 16, 16, bulang );
+    if( isAlive ){ bullet.Draw( 0, bulrect.x, bulrect.y, 16, 16, bulang ); }
+    parts.Draw();
 
 }
 void Bullet::Move()
@@ -86,6 +92,7 @@ void Bullet::Move()
 
     }
 
+    parts.Move( bulrect.x, bulrect.y, bulang+180, isAlive );
 
 }
 

@@ -2,6 +2,7 @@
 #define CLASS_PLY_H_INCLUDED
 
 #include <te.h>
+#include <te_class_particle.h>
 #include "class_bullet.h"
 #include "struct_camera.h"
 
@@ -124,6 +125,8 @@ class Player
         void SwitchWep( weapon *wep );
         void Reload();
 
+        TE_SPRITE parttex;
+
 };
 
 
@@ -236,6 +239,10 @@ camera *Player::GetCam()
 void Player::Create()
 {
 
+    static TE_SPRITE temp;
+    temp.Create( 0, 1, 1 );
+    temp.LoadThruFunc( "texs/game/tile.png", 256, 256, GL_NEAREST );
+
     plysprite.Create( 0, 2, 1 );
     plysprite.LoadThruFunc( "texs/game/playersheet.png", 256, 256, GL_NEAREST );
     armSprite.Create( 0, 1, 1 );
@@ -261,6 +268,9 @@ void Player::Create()
 
     curwep = &WEAPON_PISTOL;
     curclip = curwep->clipsize;
+
+    parttex.Create( 0, 1, 1 );
+    parttex.LoadThruFunc( "texs/game/tile.png", 128, 128, GL_LINEAR );
 
 }
 
@@ -515,7 +525,9 @@ void Player::Move()
 
             bullets.back().Create( bullet,
                                    plyrect.x+armx,
-                                   plyrect.y+army );
+                                   plyrect.y+army,
+                                   &parttex
+                                    );
             Propel( armAng, propelstren );
 
         }
@@ -537,7 +549,8 @@ void Player::Move()
 
             bullets.back().Create( bullet,
                                    plyrect.x+armx,
-                                   plyrect.y+army );
+                                   plyrect.y+army,
+                                   &parttex );
 
             Propel( armAng, propelstren );
 
