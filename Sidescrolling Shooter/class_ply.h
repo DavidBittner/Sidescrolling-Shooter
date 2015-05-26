@@ -521,7 +521,8 @@ void Player::Move()
             bullets.push_back( Bullet( &SOUND_BULLET_shot ) );
             bullets.back().Shoot( armAng+randnum,
                                   curwep->bulletspeed,
-                                  curwep->bulletdamage );
+                                  curwep->bulletdamage,
+                                  i );
 
             bullets.back().Create( bullet,
                                    plyrect.x+armx,
@@ -545,7 +546,8 @@ void Player::Move()
             bullets.push_back( Bullet( &SOUND_BULLET_shot ) );
             bullets.back().Shoot( armAng+randnum,
                                   curwep->bulletspeed,
-                                  curwep->bulletdamage );
+                                  curwep->bulletdamage,
+                                  i );
 
             bullets.back().Create( bullet,
                                    plyrect.x+armx,

@@ -8,7 +8,7 @@ class Bullet
 {
 
     public:
-        void Shoot( float ang, float bulspeedval, float buldamage );
+        void Shoot( float ang, float bulspeedval, float buldamage, int i );
         void Move();
         void Draw();
         void Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite );
@@ -63,7 +63,7 @@ void Bullet::Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite )
     colrect.h = 10;
 
     bullet.Create( sprite, 1, 1 );
-    parts.Create( partsprite, 16, 16, 4, 30, 200 );
+    parts.Create( partsprite, 16, 16, 20, 30, 200 );
 
 }
 
@@ -96,12 +96,12 @@ void Bullet::Move()
 
 }
 
-void Bullet::Shoot( float ang, float bulspeedval, float damage )
+void Bullet::Shoot( float ang, float bulspeedval, float damage, int i )
 {
 
     isAlive = true;
     bulang = ang;
-    SOUND_shot->Play( 20 );
+    if(!i)SOUND_shot->Play( 20 );
 
     bulspeed = bulspeedval;
     buldamage = damage;
