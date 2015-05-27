@@ -39,8 +39,8 @@ void STATE_GAME_LOAD()
     {
 
         Walls.push_back( Wall() );
-        Walls.back().Create( walltex, 256, 64 + (i*128 ) );
-        Walls.back().Create( walltex, -256, 64 + (i*128 ) );
+        Walls.back().Create( walltex, 256, 64 + (i*128 ), 1 );
+        Walls.back().Create( walltex, -256, 64 + (i*128 ), 1 );
 
     }
 
@@ -50,7 +50,7 @@ void STATE_GAME_LOAD()
 
 }
 
-bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
+bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b, int type )
 {
 
     if( TE_AABB( a, b ) )
@@ -85,22 +85,23 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
 
             }
 
-        }else if( horzdist < vertdist )
+        }else if( horzdist < vertdist and ( type == 0 or type == 2 or type == 3 or type == 4 ) )
         {
 
             //If it's a vertical collision I.E. top or bottoms.
-            if( acenty > bcenty and ply.getYVel() < 0 )
+            if( acenty > bcenty and ply.getYVel() < 0 and ( type == 0 ) )
             {
 
                 a->y = b->y+b->h;
-                if( horzdist!= 105 and horzdist != 106 and horzdist != 107 ){ ply.StopYVel(); ply.ResetJump(); }
+                ply.StopYVel();
+                ply.ResetJump();
 
 
             }else if( acenty < bcenty and ply.getYVel() > 0 )
             {
 
                 a->y = b->y-a->h;
-                if( horzdist!= 105 and horzdist != 106 ){ ply.StopYVel(); ply.ResetJump(); }
+                ply.StopYVel(); ply.ResetJump();
 
             }
 
@@ -172,7 +173,7 @@ void STATE_GAME_RUN()
     for( unsigned i = 0; i < Walls.size(); i++ )
     {
 
-        STATE_GAME_ACT_ON_COLLISION( ply.GetRect(), Walls[i].GetRect() );
+        STATE_GAME_ACT_ON_COLLISION( ply.GetRect(), Walls[i].GetRect(), Walls[i].GetAlignType() );
 
         Bullet *temp;
         temp = ply.GetBullets( &am );

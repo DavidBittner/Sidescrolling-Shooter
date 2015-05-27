@@ -8,7 +8,7 @@
 	<sstream>
 	<te_class_fonts.h>
 
-1375999458 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
+1376003058 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -16,21 +16,21 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1341010372 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
+1341013972 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
 	<_mingw.h>
 	<stdint.h>
 	<stddef.h>
 
-1341010370 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
+1341013970 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\stdint.h
+1341013976 c:\program files (x86)\codeblocks\mingw\include\stdint.h
 	<stddef.h>
 
-1301111164 c:\program files (x86)\codeblocks\mingw\include\gl\glu.h
+1301114764 c:\program files (x86)\codeblocks\mingw\include\gl\glu.h
 	<stddef.h>
 	<GL/gl.h>
 
-1301111164 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
+1301114764 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
 
 1388520874 c:\program files (x86)\codeblocks\mingw\include\gl\glfw.h
 	<stddef.h>
@@ -69,17 +69,17 @@
 	<assert.h>
 	<stdarg.h>
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\stdio.h
+1341013976 c:\program files (x86)\codeblocks\mingw\include\stdio.h
 	<_mingw.h>
 	<stddef.h>
 	<stdarg.h>
 	<sys/types.h>
 
-1341010380 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
+1341013980 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
 	<_mingw.h>
 	<stddef.h>
 
-1341010374 c:\program files (x86)\codeblocks\mingw\include\math.h
+1341013974 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
 1341010376 c:\program files (x86)\codeblocks\mingw\include\string.h
@@ -370,7 +370,7 @@
 	"fmod_common.h"
 	"fmod.h"
 
-1398509010 c:\program files (x86)\codeblocks\mingw\include\irrklang\irrklang.h
+1398519810 c:\program files (x86)\codeblocks\mingw\include\irrklang\irrklang.h
 	"ik_irrKlangTypes.h"
 	"ik_vec3d.h"
 	"ik_IRefCounted.h"
@@ -392,10 +392,10 @@
 	"ik_IAudioRecorder.h"
 	"ik_ISoundMixedOutputReceiver.h"
 
-1394117054 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_irrklangtypes.h
+1394124254 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_irrklangtypes.h
 	<wchar.h>
 
-1341010378 c:\program files (x86)\codeblocks\mingw\include\wchar.h
+1341013978 c:\program files (x86)\codeblocks\mingw\include\wchar.h
 	<_mingw.h>
 	<stddef.h>
 	<stdarg.h>
@@ -405,30 +405,30 @@
 	<stdint.h>
 	<stdint.h>
 
-1341010378 c:\program files (x86)\codeblocks\mingw\include\wctype.h
+1341013978 c:\program files (x86)\codeblocks\mingw\include\wctype.h
 	<_mingw.h>
 	<stddef.h>
 
-1399033938 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_vec3d.h
+1399044738 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_vec3d.h
 	<math.h>
 	"ik_irrKlangTypes.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_irefcounted.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_irefcounted.h
 	"ik_irrKlangTypes.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_ivirtualrefcounted.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_ivirtualrefcounted.h
 	"ik_irrKlangTypes.h"
 
-1394106900 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_esoundoutputdrivers.h
+1394114100 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_esoundoutputdrivers.h
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_esoundengineoptions.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_esoundengineoptions.h
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_estreammodes.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_estreammodes.h
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_saudiostreamformat.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_saudiostreamformat.h
 	"ik_IRefCounted.h"
 
-1394114464 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundengine.h
+1394121664 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundengine.h
 	"ik_IRefCounted.h"
 	"ik_vec3d.h"
 	"ik_ISoundSource.h"
@@ -437,47 +437,47 @@
 	"ik_IFileFactory.h"
 	"ik_ISoundMixedOutputReceiver.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundsource.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundsource.h
 	"ik_IVirtualRefCounted.h"
 	"ik_vec3d.h"
 	"ik_EStreamModes.h"
 	"ik_SAudioStreamFormat.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isound.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isound.h
 	"ik_IVirtualRefCounted.h"
 	"ik_ISoundEffectControl.h"
 	"ik_vec3d.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundeffectcontrol.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundeffectcontrol.h
 	"ik_IVirtualRefCounted.h"
 	"ik_vec3d.h"
 
-1394114452 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_ifilefactory.h
+1394121652 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_ifilefactory.h
 	"ik_IRefCounted.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundmixedoutputreceiver.h
-	"ik_IRefCounted.h"
-	"ik_SAudioStreamFormat.h"
-
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_iaudiostream.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundmixedoutputreceiver.h
 	"ik_IRefCounted.h"
 	"ik_SAudioStreamFormat.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_iaudiostreamloader.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_iaudiostream.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_iaudiostreamloader.h
 	"ik_IRefCounted.h"
 	"ik_IFileReader.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_ifilereader.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_ifilereader.h
 	"ik_IRefCounted.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundstopeventreceiver.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isoundstopeventreceiver.h
 	"ik_IRefCounted.h"
 	"ik_SAudioStreamFormat.h"
 
-1394106894 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isounddevicelist.h
+1394114094 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_isounddevicelist.h
 	"ik_IRefCounted.h"
 
-1394114448 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_iaudiorecorder.h
+1394121648 c:\program files (x86)\codeblocks\mingw\include\irrklang\ik_iaudiorecorder.h
 	"ik_IRefCounted.h"
 	"ik_ISoundSource.h"
 
@@ -509,7 +509,7 @@
 1430774992 c:\users\david bittner\my programming\sidescrolling-shooter\sidescrolling shooter\class_wall.h
 	<te.h>
 
-1432654375 source:c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\main.cpp
+1432734530 source:c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\main.cpp
 	<GL/glew.h>
 	<GL/glfw.h>
 	<irrKlang/irrKlang.h>
@@ -520,13 +520,13 @@
 	"struct_camera.h"
 	<te_class_fonts.h>
 
-1432660731 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_game.h
+1432749625 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_game.h
 	"class_ply.h"
 	"class_wall.h"
 	<te.h>
 	<vector>
 
-1432666719 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_ply.h
+1432752728 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_ply.h
 	<te.h>
 	<te_class_particle.h>
 	"class_bullet.h"
@@ -534,10 +534,10 @@
 
 1432666371 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\struct_camera.h
 
-1431008634 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_wall.h
+1432747292 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_wall.h
 	<te.h>
 
-1432659595 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_bullet.h
+1432734530 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\class_bullet.h
 	<te.h>
 	<te_class_particle.h>
 
@@ -545,7 +545,7 @@
 	<te.h>
 	<te_class_particle.h>
 
-1432337672 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_title.h
+1432734530 c:\users\david\programming\sidescrolling-shooter\sidescrolling shooter\state_title.h
 	<te.h>
 	<vector>
 	"state_game.h"
