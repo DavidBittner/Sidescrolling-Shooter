@@ -60,6 +60,7 @@ int main()
     STATE_TITLE_LOAD();
 	glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
 
+	float xtrans, ytrans;
 	while( !glfwWindowShouldClose( window ) )
 	{
         float stime = glfwGetTime();
@@ -68,10 +69,6 @@ int main()
         glLoadIdentity();
 
 		glPushMatrix();
-
-        float xtrans, ytrans;
-        xtrans = MainCam->x - (TE_WINDOW_WIDTH/2.0);
-        ytrans = MainCam->y - (TE_WINDOW_HEIGHT/2.0);
 
         if( ytrans < -250 ) ytrans = -250;
         glTranslatef( -xtrans, -(ytrans), -1.0f );
@@ -129,6 +126,9 @@ int main()
 
         frame++;
         if( frame == TE_FRAMES_PER_SECOND ) frame = 0;
+
+		xtrans = MainCam->x - (TE_WINDOW_WIDTH/2.0);
+        ytrans = MainCam->y - (TE_WINDOW_HEIGHT/2.0);
 
 	}
 

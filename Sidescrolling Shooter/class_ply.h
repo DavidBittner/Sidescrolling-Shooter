@@ -41,7 +41,7 @@ void weapon::CreateWep( int speed, int spread, int damage, int ampershot, int am
     automat = isauto;
     firerate = rps;
 
-    ammo = 50;
+    ammo = 5000;
 
 }
 
@@ -220,6 +220,7 @@ void Player::StopYVel()
     health-=damage*100;
 
     yvel = 0.0f;
+    propely = 0.0f;
     hasCollidedVert = true;
 
 }
@@ -369,12 +370,11 @@ TE_RECT *Player::GetRect()
 void Player::Propel( float ang, float strength )
 {
 
-    float tempstren;
-    if( curwep->automat ) tempstren = strength*curwep->bulletdamage*(curwep->bulletspeed/100)*2;
-    else tempstren = strength*curwep->bulletdamage*(curwep->bulletspeed/100);
+    float pushstrength = curwep->bulletspeed*curwep->bulletspershot*(curwep->firerate/5.0f);
+    pushstrength/=2.0f;
 
-    propelx -= (cos( ang*(pi/180) )*tempstren)*TE_DELTA_TIME;
-    propely -= (sin( ang*(pi/180) )*tempstren)*TE_DELTA_TIME;
+    propelx = -degcos( ang )*pushstrength;
+    propely = -degsin( ang )*pushstrength;
 
 }
 
@@ -386,7 +386,7 @@ float TE_CENTER_ZERO( float a, float stren )
     if( a < 0.0f ) temp = a+stren;
 
     if( abs( temp ) < stren )temp = 0.0f;
-    return stren;
+    return temp;
 
 }
 
@@ -445,7 +445,7 @@ void Player::Move()
 
     }
 
-    if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump )
+    if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump and yvel == 0.0f )
     {
 
         yvel = 1000.0f;
@@ -474,11 +474,18 @@ void Player::Move()
     extern int GAME_STATE;
     if( health <= 0.0f ) GAME_STATE = 0;
 
-    xvel+=propelx;
-    yvel+=propely;
+    if( propely <= 0.0f )
+    {
 
-    if(!hasCollidedHori or yvel>0 )yvel+=ysub*TE_DELTA_TIME;
-    else yvel+=ysub*TE_DELTA_TIME;
+
+        if(!hasCollidedHori or yvel>0 )yvel+=ysub*TE_DELTA_TIME;
+        else yvel+=ysub*TE_DELTA_TIME;
+
+
+    }
+
+    plyrect.x += propelx*TE_DELTA_TIME;
+    plyrect.y += propely*TE_DELTA_TIME;
 
     plyrect.x += xvel*TE_DELTA_TIME;
     plyrect.y += yvel*TE_DELTA_TIME;
@@ -486,8 +493,8 @@ void Player::Move()
     colrect.x = plyrect.x+20.0f;
     colrect.y = plyrect.y;
 
-    propelx = TE_CENTER_ZERO( propelx, 1.0f*TE_DELTA_TIME );
-    propely = TE_CENTER_ZERO( propely, 1.0f*TE_DELTA_TIME );
+    propelx = TE_CENTER_ZERO( propelx, 3000.0f*TE_DELTA_TIME );
+    propely = TE_CENTER_ZERO( propely, 3000.0f*TE_DELTA_TIME );
 
     if( plyrect.y < plyrect.w/2 )
     {
@@ -525,7 +532,7 @@ void Player::Move()
     bool allowshot = false;
     if( TE_CUR_SECOND - lastshot > (100.0f/curwep->firerate)/100.0f ){ allowshot = true; }
 
-    float propelstren = 10000*TE_DELTA_TIME;
+    float propelstren = 500.0f;
 
     if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 and allowshot )
     {

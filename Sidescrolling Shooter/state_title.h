@@ -33,7 +33,7 @@ void STATE_TITLE_LOAD()
 void STATE_TITLE_RUN()
 {
 
-    titlebackg.Draw( 0, 1024, 1024, 2048, 2048, 0.0f );;
+    titlebackg.Draw( 0, 1024, 1024, 2048, 2048, 0.0f );
 
     for( unsigned i = 0; i < titlebuttons.size(); i++ )
     {

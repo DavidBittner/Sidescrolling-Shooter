@@ -76,14 +76,12 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
 
                 a->x = b->x+b->w;
                 ply.StopXVel( false );
-                ply.ResetJump();
 
             }else if( acentx < bcentx )
             {
 
                 a->x = b->x-a->w;
                 ply.StopXVel( true );
-                ply.ResetJump();
 
             }
 
@@ -95,16 +93,14 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
             {
 
                 a->y = b->y+b->h;
-                if( horzdist!= 105 and horzdist != 106 and horzdist != 107 )ply.StopYVel();
-                cout << horzdist << endl;
-                ply.ResetJump();
+                if( horzdist!= 105 and horzdist != 106 and horzdist != 107 ){ ply.StopYVel(); ply.ResetJump(); }
+
 
             }else if( acenty < bcenty and ply.getYVel() > 0 )
             {
 
                 a->y = b->y-a->h;
-                if( horzdist!= 105 and horzdist != 106 )ply.StopYVel();
-                ply.StopYVel();
+                if( horzdist!= 105 and horzdist != 106 ){ ply.StopYVel(); ply.ResetJump(); }
 
             }
 
