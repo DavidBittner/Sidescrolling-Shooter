@@ -95,7 +95,8 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b )
             {
 
                 a->y = b->y+b->h;
-                if( horzdist!= 105 and horzdist != 106 and horzdist != 104)ply.StopYVel();
+                if( horzdist!= 105 and horzdist != 106 and horzdist != 107 )ply.StopYVel();
+                cout << horzdist << endl;
                 ply.ResetJump();
 
             }else if( acenty < bcenty and ply.getYVel() > 0 )

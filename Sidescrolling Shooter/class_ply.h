@@ -205,7 +205,7 @@ void Player::StopYVel()
 
     plyrect.y = colrect.y;
 
-    if( (yvel > 80.0f or yvel < -80.0f) )
+    if( abs(yvel) > 100.0f )
     {
 
         SOUND_collide.Play( abs(yvel*5.0) );
@@ -270,7 +270,7 @@ void Player::Create()
     curclip = curwep->clipsize;
 
     parttex.Create( 0, 1, 1 );
-    parttex.LoadThruFunc( "texs/game/tile.png", 128, 128, GL_LINEAR );
+    parttex.LoadThruFunc( "texs/game/spark.png", 128, 128, GL_LINEAR );
 
 }
 
@@ -369,11 +369,24 @@ TE_RECT *Player::GetRect()
 void Player::Propel( float ang, float strength )
 {
 
-    if( curwep->automat )strength = strength*(curwep->bulletdamage*curwep->bulletspershot)*7;
-    else strength = strength*(curwep->bulletdamage*curwep->bulletspershot);
+    float tempstren;
+    if( curwep->automat ) tempstren = strength*curwep->bulletdamage*(curwep->bulletspeed/100)*2;
+    else tempstren = strength*curwep->bulletdamage*(curwep->bulletspeed/100);
 
-    propelx -= (cos( ang*(pi/180) )*strength)*TE_DELTA_TIME;
-    propely -= (sin( ang*(pi/180) )*strength)*TE_DELTA_TIME;
+    propelx -= (cos( ang*(pi/180) )*tempstren)*TE_DELTA_TIME;
+    propely -= (sin( ang*(pi/180) )*tempstren)*TE_DELTA_TIME;
+
+}
+
+float TE_CENTER_ZERO( float a, float stren )
+{
+
+    float temp;
+    if( a > 0.0f ) temp = a-stren;
+    if( a < 0.0f ) temp = a+stren;
+
+    if( abs( temp ) < stren )temp = 0.0f;
+    return stren;
 
 }
 
@@ -395,8 +408,7 @@ void Player::Move()
 
     //The If statements that control movement targets. Basically, just checking key-presses.
 
-    if(!hasCollidedHori or yvel>0 )yvel-=2000.0f*TE_DELTA_TIME;
-    else yvel-=200.0f*TE_DELTA_TIME;
+    float ysub = -2000.0f;
 
     if( TE_KEYSTATES[GLFW_KEY_A] )
     {
@@ -436,7 +448,7 @@ void Player::Move()
     if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump )
     {
 
-        yvel = 600.0f;
+        yvel = 1000.0f;
         jump = !jump;
 
     }
@@ -459,8 +471,14 @@ void Player::Move()
 
     }
 
+    extern int GAME_STATE;
+    if( health <= 0.0f ) GAME_STATE = 0;
+
     xvel+=propelx;
     yvel+=propely;
+
+    if(!hasCollidedHori or yvel>0 )yvel+=ysub*TE_DELTA_TIME;
+    else yvel+=ysub*TE_DELTA_TIME;
 
     plyrect.x += xvel*TE_DELTA_TIME;
     plyrect.y += yvel*TE_DELTA_TIME;
@@ -468,8 +486,8 @@ void Player::Move()
     colrect.x = plyrect.x+20.0f;
     colrect.y = plyrect.y;
 
-    propelx = propelx/1.2f;
-    propely = propely/1.4f;
+    propelx = TE_CENTER_ZERO( propelx, 1.0f*TE_DELTA_TIME );
+    propely = TE_CENTER_ZERO( propely, 1.0f*TE_DELTA_TIME );
 
     if( plyrect.y < plyrect.w/2 )
     {
@@ -507,7 +525,7 @@ void Player::Move()
     bool allowshot = false;
     if( TE_CUR_SECOND - lastshot > (100.0f/curwep->firerate)/100.0f ){ allowshot = true; }
 
-    int propelstren = 100;
+    float propelstren = 10000*TE_DELTA_TIME;
 
     if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 and allowshot )
     {

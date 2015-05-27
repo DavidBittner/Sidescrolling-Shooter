@@ -38,7 +38,7 @@ class Bullet
         TE_SPRITE bullet;
 
         TE_SPRITE *particsprite;
-        TE_PARTICLE_CONTROLLER parts;
+        TE_PARTICLE_EMITTER parts;
 
 };
 
@@ -63,7 +63,7 @@ void Bullet::Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite )
     colrect.h = 10;
 
     bullet.Create( sprite, 1, 1 );
-    parts.Create( partsprite, 16, 16, 20, 30, 200 );
+    parts.Create( partsprite, 16, 4, 30, 60, 400 );
 
 }
 
