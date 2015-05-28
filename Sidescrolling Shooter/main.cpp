@@ -52,13 +52,12 @@ int main()
 	glfwMakeContextCurrent( window );
 
 	glfwSwapInterval( 1 );
-	glClearColor( 0.6f, 0.8f, 1.0f, 1.0f );
+	glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 	TE_INIT( WINDOW_WIDTH, WINDOW_HEIGHT );
 
 	mainFont.Create( 16, 8, "texs/gui/font.png" );
 
     STATE_TITLE_LOAD();
-	glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
 
 	float xtrans, ytrans;
 	while( !glfwWindowShouldClose( window ) )

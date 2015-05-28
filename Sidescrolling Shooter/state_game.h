@@ -16,8 +16,11 @@ TE_SPRITE background;
 
 vector<Wall> Walls;
 
+float fade = 1.5f;
+
 TE_SOUND SOUND_gamesong( "sounds/game/gamemusic.ogg" );
 TE_SOUND SOUND_bullethit( "sounds/game/bullethit.ogg" );
+//TE_SOUND SOUND_deathsong
 
 void STATE_GAME_LOAD()
 {
@@ -40,13 +43,13 @@ void STATE_GAME_LOAD()
 
         Walls.push_back( Wall() );
         Walls.back().Create( walltex, 256, 64 + (i*128 ), 1 );
-        Walls.back().Create( walltex, -256, 64 + (i*128 ), 1 );
+        if( i == 19 ) Walls.back().Create( walltex, 256, 64+(i*128), 3 );
 
     }
 
     SOUND_bullethit.initSound();
     SOUND_gamesong.initSound();
-    //SOUND_gamesong.Play( 5, true );
+    SOUND_gamesong.Play( 5, true );
 
 }
 
@@ -89,7 +92,7 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b, int type )
         {
 
             //If it's a vertical collision I.E. top or bottoms.
-            if( acenty > bcenty and ply.getYVel() < 0 and ( type == 0 ) )
+            if( acenty > bcenty and ply.getYVel() < 0 and ( type == 0 or type == 2 or type == 3 ) )
             {
 
                 a->y = b->y+b->h;
@@ -97,7 +100,7 @@ bool STATE_GAME_ACT_ON_COLLISION( TE_RECT *a, TE_RECT *b, int type )
                 ply.ResetJump();
 
 
-            }else if( acenty < bcenty and ply.getYVel() > 0 )
+            }else if( acenty < bcenty and ply.getYVel() > 0 and ( type == 0 or type != 3 ))
             {
 
                 a->y = b->y-a->h;
@@ -136,7 +139,10 @@ bool CHECK_BULLET_COLLISION( TE_RECT *a, TE_RECT *b )
 void STATE_GAME_RUN()
 {
 
-	ply.Move();
+    glPushAttrib( GL_CURRENT_BIT );
+    glColor4f( 1.0f, 1.0f, 1.0f, fade );
+
+	if( ply.getHealth() > 0.0f ) ply.Move();
 
     for( int y = -5; y < 6; y++ )
     {
@@ -193,7 +199,7 @@ void STATE_GAME_RUN()
 
     }
 
-    ply.Draw();
+    if( ply.getHealth() > 0.0f ) ply.Draw();
 
     for( unsigned i = 0; i < Walls.size(); i++ )
     {
@@ -202,13 +208,16 @@ void STATE_GAME_RUN()
 
     }
 
+    glPopAttrib();
+
 }
 
 void STATE_GAME_DRAW_GUI()
 {
 
     //GUI methods here.
-    ply.DrawGUI();
+    if( ply.getHealth() > 0.0f ) ply.DrawGUI();
+    else { fade-=0.01f; SOUND_gamesong.Stop(); }
 
 }
 

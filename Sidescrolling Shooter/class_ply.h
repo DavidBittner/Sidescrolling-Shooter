@@ -64,6 +64,8 @@ class Player
         //Returning the y velocity so the program can determine the vertical direction of movement.
         float getYVel();
 
+        float getHealth();
+
         TE_RECT *GetRect();
         camera *GetCam();
 
@@ -72,6 +74,8 @@ class Player
     private:
 
         bool hasCollidedHori;
+        bool leftOrRight;
+
         bool hasCollidedVert;
 
         double xvel, yvel;
@@ -178,6 +182,13 @@ Bullet *Player::GetBullets( unsigned int *am )
 
 }
 
+float Player::getHealth()
+{
+
+    return health;
+
+}
+
 float Player::getYVel()
 {
 
@@ -187,6 +198,8 @@ float Player::getYVel()
 
 void Player::StopXVel( bool left )
 {
+
+    leftOrRight = left;
 
     plyrect.x = colrect.x-20.0f;
 
@@ -344,7 +357,7 @@ void Player::DrawGUI()
     healthbar.w = healthwid;
     healthbar.h = health*2;
     healthbar.y = 32 + healthbar.h/2.0f;
-    healthbar.Draw( 1.0f-( health/100.0f), health/100.0f, 0.0f, 0.0f );
+    if( health >= 0.0f ) healthbar.Draw( 1.0f-( health/100.0f), health/100.0f, 0.0f, 0.0f );
 
     float bulletscale = TE_WINDOW_HEIGHT/curwep->clipsize;
 
@@ -418,7 +431,7 @@ void Player::Move()
     {
 
         tarxvel = -maxhorispeed * (shift+1);
-        if( allowFrameChange and jump )
+        if( allowFrameChange and hasCollidedVert )
         {
 
             animframe++;
@@ -430,7 +443,7 @@ void Player::Move()
     {
 
         tarxvel = maxhorispeed * (shift+1);
-        if( allowFrameChange and jump )
+        if( allowFrameChange and hasCollidedVert )
         {
 
             animframe++;
@@ -458,7 +471,9 @@ void Player::Move()
     }else if( TE_KEYPRESS[GLFW_KEY_SPACE] and hasCollidedHori )
     {
 
-        xvel = maxhorispeed*2;
+        if( leftOrRight ) xvel = -maxhorispeed*2;
+        else xvel = maxhorispeed*2;
+
         yvel = 1000.0f;
 
     }
@@ -481,9 +496,6 @@ void Player::Move()
 
     }
 
-    extern int GAME_STATE;
-    if( health <= 0.0f ) GAME_STATE = 0;
-
     if( propely <= 0.0f )
     {
 
@@ -505,6 +517,9 @@ void Player::Move()
 
     propelx = TE_CENTER_ZERO( propelx, 3000.0f*TE_DELTA_TIME );
     propely = TE_CENTER_ZERO( propely, 3000.0f*TE_DELTA_TIME );
+
+    hasCollidedHori = false;
+    hasCollidedVert = false;
 
     if( plyrect.y < plyrect.w/2 )
     {
@@ -604,9 +619,6 @@ void Player::Move()
         bullets[i].Move();
 
     }
-
-    hasCollidedHori = false;
-    hasCollidedVert = false;
 
     alListener3f( AL_POSITION, plyrect.x, plyrect.y, 0.0f );
 
