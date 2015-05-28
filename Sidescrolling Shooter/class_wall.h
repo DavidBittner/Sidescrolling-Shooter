@@ -3,36 +3,24 @@
 
 #include <te.h>
 
-/*
-0 - Check All
-1 - Sides Only
-2 - Tops Only
-3 - No Bottom
-4 - No Top
-*/
-
 class Wall
 {
 
     public:
         void Draw();
-        void Create( GLuint tex, int x, int y, int alntype );
+        void Create( GLuint tex, int x, int y );
 
         TE_COORD GetZone();
 
         TE_RECT *GetRect();
 
-        int GetAlignType();
-
     private:
         TE_RECT wallrect;
         TE_SPRITE wall;
 
-        int aligntype;
-
 };
 
-void Wall::Create( GLuint tex, int x, int y, int alntype )
+void Wall::Create( GLuint tex, int x, int y )
 {
 
     wall.Create( tex, 1, 1 );
@@ -41,15 +29,6 @@ void Wall::Create( GLuint tex, int x, int y, int alntype )
     wallrect.y = y;
     wallrect.w = 128;
     wallrect.h = 128;
-
-    aligntype = alntype;
-
-}
-
-int Wall::GetAlignType()
-{
-
-    return aligntype;
 
 }
 

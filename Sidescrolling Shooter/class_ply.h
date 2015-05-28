@@ -105,8 +105,6 @@ class Player
 
         TE_SOUND SOUND_BULLET_shot;
 
-        bool HAS_SHOT;
-
         bool HAS_RIFLE;
         bool HAS_PISTOL;
         bool HAS_MACHINE_GUN;
@@ -221,8 +219,8 @@ void Player::StopYVel()
 
     health-=damage*100;
 
-    if( !HAS_SHOT ){yvel = 0.0f; propely = 0.0f; }
-
+    yvel = 0.0f;
+    propely = 0.0f;
     hasCollidedVert = true;
 
 }
@@ -372,7 +370,7 @@ TE_RECT *Player::GetRect()
 void Player::Propel( float ang, float strength )
 {
 
-    float pushstrength = (curwep->bulletdamage/5.0f)*curwep->bulletspeed*curwep->bulletspershot*(curwep->firerate/20.0f);
+    float pushstrength = curwep->bulletspeed*curwep->bulletspershot*(curwep->firerate/5.0f);
     pushstrength/=2.0f;
 
     propelx = -degcos( ang )*pushstrength;
@@ -394,8 +392,6 @@ float TE_CENTER_ZERO( float a, float stren )
 
 void Player::Move()
 {
-
-    HAS_SHOT = false;
 
     //The frame and if-statement that control whether or not to change the players animation frame.
 
@@ -449,17 +445,11 @@ void Player::Move()
 
     }
 
-    if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump and yvel == 0.0f and !hasCollidedHori )
+    if( TE_KEYPRESS[GLFW_KEY_SPACE] and jump and yvel == 0.0f )
     {
 
         yvel = 1000.0f;
         jump = !jump;
-
-    }else if( TE_KEYPRESS[GLFW_KEY_SPACE] and hasCollidedHori )
-    {
-
-        xvel = maxhorispeed*2;
-        yvel = 1000.0f;
 
     }
 
@@ -489,7 +479,7 @@ void Player::Move()
 
 
         if(!hasCollidedHori or yvel>0 )yvel+=ysub*TE_DELTA_TIME;
-        else yvel+=(ysub/5.0f)*TE_DELTA_TIME;
+        else yvel+=ysub*TE_DELTA_TIME;
 
 
     }
@@ -542,12 +532,11 @@ void Player::Move()
     bool allowshot = false;
     if( TE_CUR_SECOND - lastshot > (100.0f/curwep->firerate)/100.0f ){ allowshot = true; }
 
-    float propelstren = 250.0f;
+    float propelstren = 500.0f;
 
     if( TE_MOUSECLICK[GLFW_MOUSE_BUTTON_LEFT] and !curwep->automat and curclip > 0 and allowshot )
     {
 
-        HAS_SHOT = true;
         lastshot = TE_CUR_SECOND;
         for( int i = 0; i < curwep->bulletspershot; i++ )
         {
@@ -573,7 +562,6 @@ void Player::Move()
     }else if( TE_MOUSEBUTTONS[ GLFW_MOUSE_BUTTON_LEFT ] and curwep->automat and curclip > 0 and allowshot )
     {
 
-        HAS_SHOT = true;
         lastshot = TE_CUR_SECOND;
         for( int i = 0; i < curwep->bulletspershot; i++ )
         {
