@@ -3,6 +3,7 @@
 
 #include "class_ply.h"
 #include "class_wall.h"
+#include "class_dummyenemy.h"
 
 #include <te.h>
 #include <vector>
@@ -15,6 +16,7 @@ TE_SPRITE ground;
 TE_SPRITE background;
 
 vector<Wall> Walls;
+DumEnem test;
 
 float fade = 1.5f;
 
@@ -24,6 +26,8 @@ TE_SOUND SOUND_bullethit( "sounds/game/bullethit.ogg" );
 
 void STATE_GAME_LOAD()
 {
+
+    test.Create( 128, 512 );
 
     //Loading textures.
     ground.Create( 0, 1, 1 );
@@ -42,8 +46,8 @@ void STATE_GAME_LOAD()
     {
 
         Walls.push_back( Wall() );
-        Walls.back().Create( walltex, 256, 64 + (i*128 ), 1 );
-        if( i == 19 ) Walls.back().Create( walltex, 256, 64+(i*128), 3 );
+        Walls.back().Create( walltex, -256, 64 + (i*128 ), 1 );
+        if( i == 19 ) Walls.back().Create( walltex, -256, 64+(i*128), 3 );
 
     }
 
@@ -195,6 +199,13 @@ void STATE_GAME_RUN()
 
             }
 
+            if( i == 0 and temp[j].IsAlive() and CHECK_BULLET_COLLISION( temp[j].GetRect(), test.getRect() ) )
+            {
+
+                test.hit( temp[j].Kill(), 0 );
+
+            }
+
         }
 
     }
@@ -209,6 +220,9 @@ void STATE_GAME_RUN()
     }
 
     glPopAttrib();
+
+    test.Move();
+    test.Draw();
 
 }
 

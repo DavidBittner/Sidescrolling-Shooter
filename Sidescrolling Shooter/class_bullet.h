@@ -13,7 +13,7 @@ class Bullet
         void Draw();
         void Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite );
 
-        void Kill();
+        float Kill();
 
         Bullet( TE_SOUND *gunshot );
 
@@ -118,10 +118,11 @@ TE_RECT *Bullet::GetRect()
 
 }
 
-void Bullet::Kill()
+float Bullet::Kill()
 {
 
     isAlive = false;
+    return buldamage;
 
 }
 
