@@ -3,7 +3,6 @@
 
 #include "class_ply.h"
 #include "class_wall.h"
-#include "class_dummyenemy.h"
 
 #include <te.h>
 #include <vector>
@@ -16,18 +15,16 @@ TE_SPRITE ground;
 TE_SPRITE background;
 
 vector<Wall> Walls;
-DumEnem test;
 
 float fade = 1.5f;
 
-TE_SOUND SOUND_gamesong( "sounds/game/gamemusic.ogg" );
+TE_SOUND SOUND_gamesong( "sounds/game/song_game.ogg" );
 TE_SOUND SOUND_bullethit( "sounds/game/bullethit.ogg" );
-//TE_SOUND SOUND_deathsong
+TE_SOUND SOUND_deathsong( "sounds/game/song_death.ogg" );
+TE_SOUND SOUND_winsong( "sounds/game/song_win.ogg" );
 
 void STATE_GAME_LOAD()
 {
-
-    test.Create( 128, 512 );
 
     //Loading textures.
     ground.Create( 0, 1, 1 );
@@ -53,6 +50,8 @@ void STATE_GAME_LOAD()
 
     SOUND_bullethit.initSound();
     SOUND_gamesong.initSound();
+    SOUND_deathsong.initSound();
+    SOUND_winsong.initSound();
     SOUND_gamesong.Play( 5, true );
 
 }
@@ -199,18 +198,10 @@ void STATE_GAME_RUN()
 
             }
 
-            if( i == 0 and temp[j].IsAlive() and CHECK_BULLET_COLLISION( temp[j].GetRect(), test.getRect() ) )
-            {
-
-                test.hit( temp[j].Kill(), 0 );
-
-            }
 
         }
 
     }
-
-    if( ply.getHealth() > 0.0f ) ply.Draw();
 
     for( unsigned i = 0; i < Walls.size(); i++ )
     {
@@ -221,8 +212,12 @@ void STATE_GAME_RUN()
 
     glPopAttrib();
 
-    test.Move();
-    test.Draw();
+    if( ply.getHealth() > 0.0f )
+    {
+
+        ply.Draw();
+
+    }
 
 }
 

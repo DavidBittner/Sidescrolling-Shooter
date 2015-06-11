@@ -63,7 +63,7 @@ void Bullet::Create( GLuint sprite, int x, int y, TE_SPRITE *partsprite )
     colrect.h = 10;
 
     bullet.Create( sprite, 1, 1 );
-    parts.Create( partsprite, 16, 4, 15, 60, 400 );
+    parts.Create( partsprite, 4, 16, 4, 15, 60, 400 );
 
 }
 

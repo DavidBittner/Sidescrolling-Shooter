@@ -285,8 +285,8 @@ void Player::Create()
     curwep = &WEAPON_PISTOL;
     curclip = curwep->clipsize;
 
-    parttex.Create( 0, 1, 1 );
-    parttex.LoadThruFunc( "texs/game/spark.png", 128, 128, GL_LINEAR );
+    parttex.Create( 0, 4, 4 );
+    parttex.LoadThruFunc( "texs/game/particles.png", 32, 32, GL_LINEAR );
 
 }
 
